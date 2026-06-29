@@ -34,6 +34,7 @@ import { HtmlSerializationPlugin } from "./plugins/HtmlSerializationPlugin";
 import { ImagesPlugin } from "./plugins/ImagesPlugin";
 import { HorizontalRulePlugin } from "./plugins/HorizontalRulePlugin";
 import { MaxLengthPlugin } from "./plugins/MaxLengthPlugin";
+import { ImageBackgroundContext } from "./context/ImageBackgroundContext";
 
 // Import styles
 import "../styles/variables.css";
@@ -127,10 +128,17 @@ function EditorInner({
     ...features,
   };
 
+  const backgroundLayerRef = useRef<HTMLDivElement>(null);
+
   return (
-    <>
+    <ImageBackgroundContext.Provider value={backgroundLayerRef}>
       <Toolbar features={resolvedFeatures} onImageUpload={onImageUpload} />
       <div className="trance-editor-content">
+        <div
+          ref={backgroundLayerRef}
+          className="trance-editor-background-layer"
+          aria-hidden="true"
+        />
         <RichTextPlugin
           contentEditable={
             <ContentEditable
@@ -167,7 +175,7 @@ function EditorInner({
 
       {/* Ref bridge */}
       {editorRef && <EditorRefPlugin editorRef={editorRef} />}
-    </>
+    </ImageBackgroundContext.Provider>
   );
 }
 

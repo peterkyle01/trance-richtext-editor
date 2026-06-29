@@ -9,11 +9,14 @@ import {
   Spread,
 } from "lexical";
 import { ReactNode, useCallback, useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import { useLexicalNodeSelection } from "@lexical/react/useLexicalNodeSelection";
 import { $getNodeByKey, CLICK_COMMAND, COMMAND_PRIORITY_LOW } from "lexical";
+import { useImageBackgroundLayer } from "../context/ImageBackgroundContext";
 
 export type ImageAlignment = "left" | "center" | "right";
+export type ImageMode = "inline" | "background";
 
 export interface ImagePayload {
   src: string;
@@ -22,6 +25,7 @@ export interface ImagePayload {
   height?: number;
   caption?: string;
   alignment?: ImageAlignment;
+  mode?: ImageMode;
   key?: NodeKey;
 }
 
@@ -33,6 +37,7 @@ export type SerializedImageNode = Spread<
     height?: number;
     caption?: string;
     alignment?: ImageAlignment;
+    mode?: ImageMode;
   },
   SerializedLexicalNode
 >;
@@ -61,6 +66,7 @@ function $convertImageElement(domNode: Node): DOMConversionOutput | null {
         height: img.height || undefined,
         caption: figcaption?.textContent || undefined,
         alignment: (element.dataset.align as ImageAlignment) || undefined,
+        mode: (element.dataset.mode as ImageMode) || undefined,
       });
       return { node };
     }
@@ -75,6 +81,7 @@ export class ImageNode extends DecoratorNode<ReactNode> {
   __height: number | undefined;
   __caption: string | undefined;
   __alignment: ImageAlignment;
+  __mode: ImageMode;
 
   static getType(): string {
     return "image";
@@ -88,6 +95,7 @@ export class ImageNode extends DecoratorNode<ReactNode> {
       node.__height,
       node.__caption,
       node.__alignment,
+      node.__mode,
       node.__key,
     );
   }
@@ -100,6 +108,7 @@ export class ImageNode extends DecoratorNode<ReactNode> {
       height: serializedNode.height,
       caption: serializedNode.caption,
       alignment: serializedNode.alignment,
+      mode: serializedNode.mode,
     });
   }
 
@@ -123,6 +132,7 @@ export class ImageNode extends DecoratorNode<ReactNode> {
     height?: number,
     caption?: string,
     alignment: ImageAlignment = "center",
+    mode: ImageMode = "inline",
     key?: NodeKey,
   ) {
     super(key);
@@ -132,6 +142,7 @@ export class ImageNode extends DecoratorNode<ReactNode> {
     this.__height = height;
     this.__caption = caption;
     this.__alignment = alignment;
+    this.__mode = mode;
   }
 
   exportJSON(): SerializedImageNode {
@@ -144,6 +155,7 @@ export class ImageNode extends DecoratorNode<ReactNode> {
       height: this.__height,
       caption: this.__caption,
       alignment: this.__alignment,
+      mode: this.__mode,
     };
   }
 
@@ -151,7 +163,11 @@ export class ImageNode extends DecoratorNode<ReactNode> {
     const figure = document.createElement("figure");
     figure.style.margin = "0";
     figure.dataset.align = this.__alignment;
+    figure.dataset.mode = this.__mode;
     this.applyAlignmentStyles(figure);
+    if (this.__mode === "background") {
+      figure.classList.add("trance-image-background");
+    }
 
     const img = document.createElement("img");
     img.setAttribute("src", this.__src);
@@ -203,13 +219,16 @@ export class ImageNode extends DecoratorNode<ReactNode> {
 
   createDOM(): HTMLElement {
     const div = document.createElement("div");
-    div.className = `trance-image-wrapper align-${this.__alignment}`;
+    div.className = `trance-image-wrapper align-${this.__alignment} mode-${this.__mode}`;
     return div;
   }
 
   updateDOM(prevNode: ImageNode, dom: HTMLElement): boolean {
-    if (prevNode.__alignment !== this.__alignment) {
-      dom.className = `trance-image-wrapper align-${this.__alignment}`;
+    if (
+      prevNode.__alignment !== this.__alignment ||
+      prevNode.__mode !== this.__mode
+    ) {
+      dom.className = `trance-image-wrapper align-${this.__alignment} mode-${this.__mode}`;
     }
     return false;
   }
@@ -240,6 +259,15 @@ export class ImageNode extends DecoratorNode<ReactNode> {
     writable.__alignment = alignment;
   }
 
+  getMode(): ImageMode {
+    return this.__mode;
+  }
+
+  setMode(mode: ImageMode): void {
+    const writable = this.getWritable();
+    writable.__mode = mode;
+  }
+
   decorate(): ReactNode {
     return (
       <ImageComponent
@@ -250,6 +278,7 @@ export class ImageNode extends DecoratorNode<ReactNode> {
         height={this.__height}
         caption={this.__caption}
         alignment={this.__alignment}
+        mode={this.__mode}
       />
     );
   }
@@ -267,6 +296,7 @@ function ImageComponent({
   height,
   caption,
   alignment,
+  mode,
 }: {
   nodeKey: NodeKey;
   src: string;
@@ -275,6 +305,7 @@ function ImageComponent({
   height?: number;
   caption?: string;
   alignment: ImageAlignment;
+  mode: ImageMode;
 }) {
   return (
     <ImageComponentInner
@@ -285,6 +316,7 @@ function ImageComponent({
       height={height}
       caption={caption}
       alignment={alignment}
+      mode={mode}
     />
   );
 }
@@ -297,6 +329,7 @@ function ImageComponentInner({
   height,
   caption,
   alignment,
+  mode,
 }: {
   nodeKey: NodeKey;
   src: string;
@@ -305,6 +338,7 @@ function ImageComponentInner({
   height?: number;
   caption?: string;
   alignment: ImageAlignment;
+  mode: ImageMode;
 }) {
   const [editor] = useLexicalComposerContext();
   const [isSelected, setSelected, clearSelection] =
@@ -313,6 +347,8 @@ function ImageComponentInner({
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [isResizing, setIsResizing] = useState(false);
   const [currentWidth, setCurrentWidth] = useState(width);
+  const backgroundLayer = useImageBackgroundLayer();
+  const isBackground = mode === "background";
 
   useEffect(() => {
     setCurrentWidth(width);
@@ -399,6 +435,18 @@ function ImageComponentInner({
     [editor, nodeKey],
   );
 
+  const setMode = useCallback(
+    (newMode: ImageMode) => {
+      editor.update(() => {
+        const node = $getNodeByKey(nodeKey);
+        if ($isImageNode(node)) {
+          node.setMode(newMode);
+        }
+      });
+    },
+    [editor, nodeKey],
+  );
+
   const innerClassName = ["trance-image-inner", isSelected ? "selected" : ""]
     .filter(Boolean)
     .join(" ");
@@ -442,32 +490,59 @@ function ImageComponentInner({
           >
             <AlignRightIcon />
           </button>
+          <div className="trance-image-toolbar-divider" />
+          <button
+            type="button"
+            className={isBackground ? "active" : ""}
+            onClick={() => setMode(isBackground ? "inline" : "background")}
+            aria-label="Toggle background image"
+            title="Toggle background image"
+          >
+            BG
+          </button>
         </div>
       )}
 
-      <figure style={{ margin: 0 }}>
-        <img
-          ref={imageRef}
-          src={src}
-          alt={altText}
-          width={currentWidth}
-          height={height}
-          draggable={false}
-          style={{
-            maxWidth: "100%",
-            height: "auto",
-            borderRadius: "8px",
-            display: "block",
-            cursor: isSelected ? "default" : "pointer",
-            userSelect: "none",
-          }}
-        />
-        {caption && (
-          <figcaption className="trance-image-caption">{caption}</figcaption>
+      {isBackground ? (
+        <div className="trance-image-background-placeholder">
+          <span>Background Image</span>
+        </div>
+      ) : (
+        <figure style={{ margin: 0 }}>
+          <img
+            ref={imageRef}
+            src={src}
+            alt={altText}
+            width={currentWidth}
+            height={height}
+            draggable={false}
+            style={{
+              maxWidth: "100%",
+              height: "auto",
+              borderRadius: "8px",
+              display: "block",
+              cursor: isSelected ? "default" : "pointer",
+              userSelect: "none",
+            }}
+          />
+          {caption && (
+            <figcaption className="trance-image-caption">{caption}</figcaption>
+          )}
+        </figure>
+      )}
+      {isBackground &&
+        backgroundLayer?.current &&
+        createPortal(
+          <img
+            src={src}
+            alt={altText}
+            className="trance-image-background-img"
+            draggable={false}
+          />,
+          backgroundLayer.current,
         )}
-      </figure>
 
-      {(isSelected || isResizing) && (
+      {(isSelected || isResizing) && !isBackground && (
         <div
           className="trance-image-resize-handle"
           onMouseDown={startResize}
@@ -538,6 +613,7 @@ export function $createImageNode(payload: ImagePayload): ImageNode {
     payload.height,
     payload.caption,
     payload.alignment || "center",
+    payload.mode || "inline",
     payload.key,
   );
 }
