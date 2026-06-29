@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
-import DOMPurify from 'dompurify';
-import './TranceRenderer.css';
+import React, { useMemo } from "react";
+import DOMPurify from "dompurify";
+import "./TranceRenderer.css";
 
 export interface TranceRendererProps {
   /** HTML string output from TranceEditor */
@@ -8,7 +8,7 @@ export interface TranceRendererProps {
   /** Additional CSS class */
   className?: string;
   /** Theme mode */
-  theme?: 'light' | 'dark' | 'auto';
+  theme?: "light" | "dark" | "auto";
 }
 
 /**
@@ -30,17 +30,17 @@ export interface TranceRendererProps {
  */
 export function TranceRenderer({
   html,
-  className = '',
-  theme = 'light',
+  className = "",
+  theme = "light",
 }: TranceRendererProps) {
   const sanitizedHtml = useMemo(() => {
-    if (typeof window === 'undefined') {
+    if (typeof window === "undefined") {
       // SSR: return as-is (consider using isomorphic-dompurify in production)
       return html;
     }
     return DOMPurify.sanitize(html, {
-      ADD_TAGS: ['figure', 'figcaption', 'iframe'],
-      ADD_ATTR: ['target', 'rel', 'loading'],
+      ADD_TAGS: ["figure", "figcaption", "iframe"],
+      ADD_ATTR: ["target", "rel", "loading"],
       ALLOW_DATA_ATTR: false,
     });
   }, [html]);
@@ -49,7 +49,11 @@ export function TranceRenderer({
     <div
       className={`trance-renderer ${className}`.trim()}
       data-trance-theme={theme}
-      dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-    />
+    >
+      <div
+        className="trance-renderer-content"
+        dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+      />
+    </div>
   );
 }

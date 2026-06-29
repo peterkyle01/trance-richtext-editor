@@ -66,7 +66,11 @@ function $convertImageElement(domNode: Node): DOMConversionOutput | null {
         height: img.height || undefined,
         caption: figcaption?.textContent || undefined,
         alignment: (element.dataset.align as ImageAlignment) || undefined,
-        mode: (element.dataset.mode as ImageMode) || undefined,
+        mode:
+          (element.dataset.mode as ImageMode) ||
+          (element.classList.contains("trance-image-background")
+            ? "background"
+            : undefined),
       });
       return { node };
     }
@@ -184,7 +188,7 @@ export class ImageNode extends DecoratorNode<ReactNode> {
     img.style.display = "block";
     figure.appendChild(img);
 
-    if (this.__caption) {
+    if (this.__caption && this.__mode !== "background") {
       const figcaption = document.createElement("figcaption");
       figcaption.textContent = this.__caption;
       figcaption.style.textAlign = "center";
@@ -193,6 +197,17 @@ export class ImageNode extends DecoratorNode<ReactNode> {
       figcaption.style.marginTop = "4px";
       figcaption.style.fontStyle = "italic";
       figure.appendChild(figcaption);
+    }
+
+    if (this.__mode === "background") {
+      figure.classList.add("trance-image-background");
+      const placeholder = document.createElement("div");
+      placeholder.className = "trance-image-background-placeholder";
+      placeholder.textContent = "Background Image";
+      const fragment = document.createDocumentFragment();
+      fragment.appendChild(figure);
+      fragment.appendChild(placeholder);
+      return { element: fragment };
     }
 
     return { element: figure };
