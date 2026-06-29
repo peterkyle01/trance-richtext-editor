@@ -4,45 +4,41 @@ import React, {
   useEffect,
   useImperativeHandle,
   useRef,
-} from 'react';
-import { LexicalComposer } from '@lexical/react/LexicalComposer';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { RichTextPlugin } from '@lexical/react/LexicalRichTextPlugin';
-import { ContentEditable } from '@lexical/react/LexicalContentEditable';
-import { HistoryPlugin } from '@lexical/react/LexicalHistoryPlugin';
-import { AutoFocusPlugin } from '@lexical/react/LexicalAutoFocusPlugin';
-import { ListPlugin } from '@lexical/react/LexicalListPlugin';
-import { LinkPlugin } from '@lexical/react/LexicalLinkPlugin';
-import { CheckListPlugin } from '@lexical/react/LexicalCheckListPlugin';
-import { TabIndentationPlugin } from '@lexical/react/LexicalTabIndentationPlugin';
-import { TablePlugin } from '@lexical/react/LexicalTablePlugin';
-import { LexicalErrorBoundary } from '@lexical/react/LexicalErrorBoundary';
-import { MarkdownShortcutPlugin } from '@lexical/react/LexicalMarkdownShortcutPlugin';
-import { TRANSFORMERS } from '@lexical/markdown';
-import {
-  $generateHtmlFromNodes,
-  $generateNodesFromDOM,
-} from '@lexical/html';
+} from "react";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
+import { ContentEditable } from "@lexical/react/LexicalContentEditable";
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
+import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
+import { CheckListPlugin } from "@lexical/react/LexicalCheckListPlugin";
+import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
+import { TablePlugin } from "@lexical/react/LexicalTablePlugin";
+import { LexicalErrorBoundary } from "@lexical/react/LexicalErrorBoundary";
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
+import { TRANSFORMERS } from "@lexical/markdown";
+import { $generateHtmlFromNodes, $generateNodesFromDOM } from "@lexical/html";
 import {
   $getRoot,
   $insertNodes,
   LexicalEditor,
   SerializedEditorState,
-} from 'lexical';
+} from "lexical";
 
-import { TRANCE_NODES } from './nodes';
-import { tranceLexicalTheme } from '../styles/lexical-theme';
-import { Toolbar, ToolbarFeatures } from './toolbar/Toolbar';
-import { FloatingToolbar } from './floating/FloatingToolbar';
-import { HtmlSerializationPlugin } from './plugins/HtmlSerializationPlugin';
-import { ImagesPlugin } from './plugins/ImagesPlugin';
-import { HorizontalRulePlugin } from './plugins/HorizontalRulePlugin';
-import { MaxLengthPlugin } from './plugins/MaxLengthPlugin';
+import { TRANCE_NODES } from "./nodes";
+import { tranceLexicalTheme } from "../styles/lexical-theme";
+import { Toolbar, ToolbarFeatures } from "./toolbar/Toolbar";
+import { HtmlSerializationPlugin } from "./plugins/HtmlSerializationPlugin";
+import { ImagesPlugin } from "./plugins/ImagesPlugin";
+import { HorizontalRulePlugin } from "./plugins/HorizontalRulePlugin";
+import { MaxLengthPlugin } from "./plugins/MaxLengthPlugin";
 
 // Import styles
-import '../styles/variables.css';
-import '../styles/editor.css';
-import '../styles/toolbar.css';
+import "../styles/variables.css";
+import "../styles/editor.css";
+import "../styles/toolbar.css";
 
 export interface TranceEditorProps {
   /** Initialize from an HTML string */
@@ -62,7 +58,7 @@ export interface TranceEditorProps {
   /** Image upload handler. If not provided, images are base64 encoded. */
   onImageUpload?: (file: File) => Promise<{ url: string; alt?: string }>;
   /** Theme mode */
-  theme?: 'light' | 'dark' | 'auto';
+  theme?: "light" | "dark" | "auto";
   /** Additional CSS class for the editor wrapper */
   className?: string;
   /** Whether the editor is editable */
@@ -138,10 +134,10 @@ function EditorInner({
           contentEditable={
             <ContentEditable
               className="trance-content-editable"
-              aria-placeholder={placeholder || 'Start writing...'}
+              aria-placeholder={placeholder || "Start writing..."}
               placeholder={
                 <div className="trance-editor-placeholder">
-                  {placeholder || 'Start writing...'}
+                  {placeholder || "Start writing..."}
                 </div>
               }
               onBlur={onBlur}
@@ -168,9 +164,6 @@ function EditorInner({
       <HorizontalRulePlugin />
       {maxLength !== undefined && <MaxLengthPlugin maxLength={maxLength} />}
 
-      {/* Floating toolbar */}
-      <FloatingToolbar />
-
       {/* Ref bridge */}
       {editorRef && <EditorRefPlugin editorRef={editorRef} />}
     </>
@@ -189,7 +182,7 @@ function EditorRefPlugin({
 
   useImperativeHandle(editorRef, () => ({
     getHtml: () => {
-      let html = '';
+      let html = "";
       editor.read(() => {
         html = $generateHtmlFromNodes(editor, null);
       });
@@ -201,7 +194,7 @@ function EditorRefPlugin({
     setHtml: (html: string) => {
       editor.update(() => {
         const parser = new DOMParser();
-        const dom = parser.parseFromString(html, 'text/html');
+        const dom = parser.parseFromString(html, "text/html");
         const nodes = $generateNodesFromDOM(editor, dom);
         const root = $getRoot();
         root.clear();
@@ -250,19 +243,19 @@ export const TranceEditor = forwardRef<TranceEditorRef, TranceEditorProps>(
     const {
       initialHtml,
       initialJson,
-      theme = 'light',
-      className = '',
+      theme = "light",
+      className = "",
       editable = true,
       ...rest
     } = props;
 
     const initialConfig = {
-      namespace: 'TranceEditor',
+      namespace: "TranceEditor",
       theme: tranceLexicalTheme,
       nodes: TRANCE_NODES,
       editable,
       onError: (error: Error) => {
-        console.error('[TranceEditor]', error);
+        console.error("[TranceEditor]", error);
       },
       editorState: initialJson
         ? JSON.stringify(initialJson)
@@ -270,7 +263,7 @@ export const TranceEditor = forwardRef<TranceEditorRef, TranceEditorProps>(
           ? (editor: LexicalEditor) => {
               editor.update(() => {
                 const parser = new DOMParser();
-                const dom = parser.parseFromString(initialHtml, 'text/html');
+                const dom = parser.parseFromString(initialHtml, "text/html");
                 const nodes = $generateNodesFromDOM(editor, dom);
                 const root = $getRoot();
                 root.select();
@@ -290,5 +283,5 @@ export const TranceEditor = forwardRef<TranceEditorRef, TranceEditorProps>(
         </LexicalComposer>
       </div>
     );
-  }
+  },
 );

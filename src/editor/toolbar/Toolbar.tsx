@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
+import React, { useCallback, useEffect, useState } from "react";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getSelection,
   $isRangeSelection,
@@ -12,30 +12,55 @@ import {
   REDO_COMMAND,
   SELECTION_CHANGE_COMMAND,
   UNDO_COMMAND,
-} from 'lexical';
-import { $isHeadingNode, $createHeadingNode, HeadingTagType } from '@lexical/rich-text';
-import { $isListNode, INSERT_ORDERED_LIST_COMMAND, INSERT_UNORDERED_LIST_COMMAND, INSERT_CHECK_LIST_COMMAND, ListNode } from '@lexical/list';
-import { $isCodeNode } from '@lexical/code';
-import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { $findMatchingParent, $getNearestNodeOfType } from '@lexical/utils';
-import { $setBlocksType } from '@lexical/selection';
-import { $createQuoteNode, $isQuoteNode } from '@lexical/rich-text';
-import { $createCodeNode } from '@lexical/code';
-import { $createParagraphNode } from 'lexical';
-import { INSERT_TABLE_COMMAND } from '@lexical/table';
-
-import { ToolbarButton, ToolbarSeparator } from './ToolbarButton';
-import { BlockTypeDropdown } from './BlockTypeDropdown';
+} from "lexical";
 import {
-  BoldIcon, ItalicIcon, UnderlineIcon, StrikethroughIcon,
-  CodeIcon, LinkIcon, ImageIcon, TableIcon,
-  HorizontalRuleIcon, ListBulletIcon, ListNumberedIcon,
-  ListCheckIcon, AlignLeftIcon, AlignCenterIcon,
-  AlignRightIcon, AlignJustifyIcon, UndoIcon, RedoIcon,
-  HighlightIcon, SuperscriptIcon, SubscriptIcon,
-} from './icons';
-import { INSERT_IMAGE_COMMAND } from '../plugins/ImagesPlugin';
-import { INSERT_HORIZONTAL_RULE_COMMAND } from '../plugins/HorizontalRulePlugin';
+  $isHeadingNode,
+  $createHeadingNode,
+  HeadingTagType,
+} from "@lexical/rich-text";
+import {
+  $isListNode,
+  INSERT_ORDERED_LIST_COMMAND,
+  INSERT_UNORDERED_LIST_COMMAND,
+  INSERT_CHECK_LIST_COMMAND,
+  ListNode,
+} from "@lexical/list";
+import { $isCodeNode } from "@lexical/code";
+import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
+import { $findMatchingParent, $getNearestNodeOfType } from "@lexical/utils";
+import { $setBlocksType } from "@lexical/selection";
+import { $createQuoteNode, $isQuoteNode } from "@lexical/rich-text";
+import { $createCodeNode } from "@lexical/code";
+import { $createParagraphNode } from "lexical";
+import { INSERT_TABLE_COMMAND } from "@lexical/table";
+
+import { ToolbarButton, ToolbarSeparator } from "./ToolbarButton";
+import { BlockTypeDropdown } from "./BlockTypeDropdown";
+import {
+  BoldIcon,
+  ItalicIcon,
+  UnderlineIcon,
+  StrikethroughIcon,
+  CodeIcon,
+  LinkIcon,
+  ImageIcon,
+  TableIcon,
+  HorizontalRuleIcon,
+  ListBulletIcon,
+  ListNumberedIcon,
+  ListCheckIcon,
+  AlignLeftIcon,
+  AlignCenterIcon,
+  AlignRightIcon,
+  AlignJustifyIcon,
+  UndoIcon,
+  RedoIcon,
+  HighlightIcon,
+  SuperscriptIcon,
+  SubscriptIcon,
+} from "./icons";
+import { INSERT_IMAGE_COMMAND } from "../plugins/ImagesPlugin";
+import { INSERT_HORIZONTAL_RULE_COMMAND } from "../plugins/HorizontalRulePlugin";
 
 export interface ToolbarFeatures {
   bold?: boolean;
@@ -84,7 +109,7 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
   const [isLink, setIsLink] = useState(false);
 
   // Block type
-  const [blockType, setBlockType] = useState('paragraph');
+  const [blockType, setBlockType] = useState("paragraph");
 
   // History
   const [canUndo, setCanUndo] = useState(false);
@@ -93,19 +118,19 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
     if ($isRangeSelection(selection)) {
-      setIsBold(selection.hasFormat('bold'));
-      setIsItalic(selection.hasFormat('italic'));
-      setIsUnderline(selection.hasFormat('underline'));
-      setIsStrikethrough(selection.hasFormat('strikethrough'));
-      setIsCode(selection.hasFormat('code'));
-      setIsSuperscript(selection.hasFormat('superscript'));
-      setIsSubscript(selection.hasFormat('subscript'));
-      setIsHighlight(selection.hasFormat('highlight'));
+      setIsBold(selection.hasFormat("bold"));
+      setIsItalic(selection.hasFormat("italic"));
+      setIsUnderline(selection.hasFormat("underline"));
+      setIsStrikethrough(selection.hasFormat("strikethrough"));
+      setIsCode(selection.hasFormat("code"));
+      setIsSuperscript(selection.hasFormat("superscript"));
+      setIsSubscript(selection.hasFormat("subscript"));
+      setIsHighlight(selection.hasFormat("highlight"));
 
       // Check block type
       const anchorNode = selection.anchor.getNode();
       let element =
-        anchorNode.getKey() === 'root'
+        anchorNode.getKey() === "root"
           ? anchorNode
           : $findMatchingParent(anchorNode, (e) => {
               const parent = e.getParent();
@@ -119,19 +144,24 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
       const elementDOM = activeEditor.getElementByKey(element.getKey());
 
       if ($isListNode(element)) {
-        const parentList = $getNearestNodeOfType<ListNode>(anchorNode, ListNode);
-        const type = parentList ? parentList.getListType() : element.getListType();
-        if (type === 'bullet') setBlockType('bullet');
-        else if (type === 'number') setBlockType('number');
-        else if (type === 'check') setBlockType('check');
+        const parentList = $getNearestNodeOfType<ListNode>(
+          anchorNode,
+          ListNode,
+        );
+        const type = parentList
+          ? parentList.getListType()
+          : element.getListType();
+        if (type === "bullet") setBlockType("bullet");
+        else if (type === "number") setBlockType("number");
+        else if (type === "check") setBlockType("check");
       } else {
         const type = $isHeadingNode(element)
           ? element.getTag()
           : $isCodeNode(element)
-            ? 'code'
+            ? "code"
             : $isQuoteNode(element)
-              ? 'quote'
-              : 'paragraph';
+              ? "quote"
+              : "paragraph";
         setBlockType(type);
       }
 
@@ -149,7 +179,7 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
         $updateToolbar();
         return false;
       },
-      COMMAND_PRIORITY_CRITICAL
+      COMMAND_PRIORITY_CRITICAL,
     );
   }, [editor, $updateToolbar]);
 
@@ -168,7 +198,7 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
         setCanUndo(payload);
         return false;
       },
-      COMMAND_PRIORITY_CRITICAL
+      COMMAND_PRIORITY_CRITICAL,
     );
   }, [editor]);
 
@@ -179,7 +209,7 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
         setCanRedo(payload);
         return false;
       },
-      COMMAND_PRIORITY_CRITICAL
+      COMMAND_PRIORITY_CRITICAL,
     );
   }, [editor]);
 
@@ -190,26 +220,26 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
         const selection = $getSelection();
         if (!$isRangeSelection(selection)) return;
 
-        if (type === 'paragraph') {
+        if (type === "paragraph") {
           $setBlocksType(selection, () => $createParagraphNode());
         } else if (type.match(/^h[1-6]$/)) {
           $setBlocksType(selection, () =>
-            $createHeadingNode(type as HeadingTagType)
+            $createHeadingNode(type as HeadingTagType),
           );
-        } else if (type === 'quote') {
+        } else if (type === "quote") {
           $setBlocksType(selection, () => $createQuoteNode());
-        } else if (type === 'code') {
+        } else if (type === "code") {
           $setBlocksType(selection, () => $createCodeNode());
         }
       });
     },
-    [editor]
+    [editor],
   );
 
   const handleImageInsert = useCallback(async () => {
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.accept = 'image/*';
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "image/*";
     input.onchange = async () => {
       const file = input.files?.[0];
       if (!file) return;
@@ -236,27 +266,39 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           altText: alt,
         });
       } catch (err) {
-        console.error('Image insert failed:', err);
+        console.error("Image insert failed:", err);
       }
     };
     input.click();
   }, [editor, onImageUpload]);
 
+  const normalizeUrl = useCallback((url: string): string => {
+    const trimmed = url.trim();
+    if (!trimmed) return "";
+    if (/^(https?:|mailto:|tel:|#)/i.test(trimmed)) {
+      return trimmed;
+    }
+    if (trimmed.includes("@") && !trimmed.includes("/")) {
+      return `mailto:${trimmed}`;
+    }
+    return `https://${trimmed}`;
+  }, []);
+
   const handleLinkToggle = useCallback(() => {
     if (isLink) {
       editor.dispatchCommand(TOGGLE_LINK_COMMAND, null);
     } else {
-      const url = prompt('Enter URL:');
+      const url = prompt("Enter URL:");
       if (url) {
-        editor.dispatchCommand(TOGGLE_LINK_COMMAND, url);
+        editor.dispatchCommand(TOGGLE_LINK_COMMAND, normalizeUrl(url));
       }
     }
-  }, [editor, isLink]);
+  }, [editor, isLink, normalizeUrl]);
 
   const handleTableInsert = useCallback(() => {
     editor.dispatchCommand(INSERT_TABLE_COMMAND, {
-      rows: '3',
-      columns: '3',
+      rows: "3",
+      columns: "3",
       includeHeaders: true,
     });
   }, [editor]);
@@ -298,7 +340,7 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           label="Bold"
           shortcut="⌘B"
           active={isBold}
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'bold')}
+          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "bold")}
         />
       )}
       {features.italic !== false && (
@@ -307,7 +349,7 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           label="Italic"
           shortcut="⌘I"
           active={isItalic}
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'italic')}
+          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "italic")}
         />
       )}
       {features.underline !== false && (
@@ -316,7 +358,9 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           label="Underline"
           shortcut="⌘U"
           active={isUnderline}
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'underline')}
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "underline")
+          }
         />
       )}
       {features.strikethrough !== false && (
@@ -324,7 +368,9 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           icon={<StrikethroughIcon />}
           label="Strikethrough"
           active={isStrikethrough}
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'strikethrough')}
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "strikethrough")
+          }
         />
       )}
       {features.code !== false && (
@@ -332,7 +378,7 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           icon={<CodeIcon />}
           label="Inline Code"
           active={isCode}
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'code')}
+          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code")}
         />
       )}
       {features.highlight !== false && (
@@ -340,7 +386,9 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           icon={<HighlightIcon />}
           label="Highlight"
           active={isHighlight}
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'highlight')}
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "highlight")
+          }
         />
       )}
       {features.superscript !== false && (
@@ -348,7 +396,9 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           icon={<SuperscriptIcon />}
           label="Superscript"
           active={isSuperscript}
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'superscript')}
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "superscript")
+          }
         />
       )}
       {features.subscript !== false && (
@@ -356,7 +406,9 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           icon={<SubscriptIcon />}
           label="Subscript"
           active={isSubscript}
-          onClick={() => editor.dispatchCommand(FORMAT_TEXT_COMMAND, 'subscript')}
+          onClick={() =>
+            editor.dispatchCommand(FORMAT_TEXT_COMMAND, "subscript")
+          }
         />
       )}
 
@@ -367,24 +419,30 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
         <ToolbarButton
           icon={<ListBulletIcon />}
           label="Bullet List"
-          active={blockType === 'bullet'}
-          onClick={() => editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined)}
+          active={blockType === "bullet"}
+          onClick={() =>
+            editor.dispatchCommand(INSERT_UNORDERED_LIST_COMMAND, undefined)
+          }
         />
       )}
       {features.orderedList !== false && (
         <ToolbarButton
           icon={<ListNumberedIcon />}
           label="Numbered List"
-          active={blockType === 'number'}
-          onClick={() => editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined)}
+          active={blockType === "number"}
+          onClick={() =>
+            editor.dispatchCommand(INSERT_ORDERED_LIST_COMMAND, undefined)
+          }
         />
       )}
       {features.checkList !== false && (
         <ToolbarButton
           icon={<ListCheckIcon />}
           label="Check List"
-          active={blockType === 'check'}
-          onClick={() => editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined)}
+          active={blockType === "check"}
+          onClick={() =>
+            editor.dispatchCommand(INSERT_CHECK_LIST_COMMAND, undefined)
+          }
         />
       )}
 
@@ -418,7 +476,9 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
         <ToolbarButton
           icon={<HorizontalRuleIcon />}
           label="Horizontal Rule"
-          onClick={() => editor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined)}
+          onClick={() =>
+            editor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined)
+          }
         />
       )}
 
@@ -430,22 +490,30 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           <ToolbarButton
             icon={<AlignLeftIcon />}
             label="Align Left"
-            onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'left')}
+            onClick={() =>
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "left")
+            }
           />
           <ToolbarButton
             icon={<AlignCenterIcon />}
             label="Align Center"
-            onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'center')}
+            onClick={() =>
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "center")
+            }
           />
           <ToolbarButton
             icon={<AlignRightIcon />}
             label="Align Right"
-            onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'right')}
+            onClick={() =>
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "right")
+            }
           />
           <ToolbarButton
             icon={<AlignJustifyIcon />}
             label="Justify"
-            onClick={() => editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, 'justify')}
+            onClick={() =>
+              editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, "justify")
+            }
           />
         </>
       )}
