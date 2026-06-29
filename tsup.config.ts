@@ -1,20 +1,21 @@
-import { defineConfig } from 'tsup';
+import { defineConfig } from "tsup";
 
 export default defineConfig([
   {
     entry: {
-      index: 'src/index.ts',
-      renderer: 'src/renderer.ts',
+      index: "src/index.ts",
+      renderer: "src/renderer.ts",
     },
-    format: ['esm', 'cjs'],
+    format: ["esm", "cjs"],
     dts: true,
     sourcemap: true,
     clean: true,
-    external: ['react', 'react-dom'],
+    external: ["react", "react-dom"],
     esbuildOptions(options) {
-      options.jsx = 'automatic';
+      options.jsx = "automatic";
     },
     treeshake: true,
     splitting: true,
+    onSuccess: "cat dist/index.css dist/renderer.css > dist/styles.css",
   },
 ]);
