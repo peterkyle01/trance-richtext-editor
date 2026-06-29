@@ -193,13 +193,56 @@ export class ImageNode extends DecoratorNode<ReactNode> {
   }
 
   decorate(): ReactNode {
-    // Rendered by ImageComponent in the editor
-    return null;
+    return (
+      <ImageComponent
+        src={this.__src}
+        altText={this.__altText}
+        width={this.__width}
+        height={this.__height}
+        caption={this.__caption}
+      />
+    );
   }
 
   isInline(): boolean {
     return false;
   }
+}
+
+function ImageComponent({
+  src,
+  altText,
+  width,
+  height,
+  caption,
+}: {
+  src: string;
+  altText: string;
+  width?: number;
+  height?: number;
+  caption?: string;
+}) {
+  return (
+    <figure style={{ margin: 0, display: 'inline-block', maxWidth: '100%' }}>
+      <img
+        src={src}
+        alt={altText}
+        width={width}
+        height={height}
+        style={{
+          maxWidth: '100%',
+          height: 'auto',
+          borderRadius: '8px',
+          display: 'block',
+        }}
+      />
+      {caption && (
+        <figcaption className="trance-image-caption">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
 }
 
 export function $createImageNode(payload: ImagePayload): ImageNode {

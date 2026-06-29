@@ -5,6 +5,8 @@
 
 /* ---- Main Toolbar ---- */
 .trance-toolbar {
+  position: relative;
+  z-index: 10;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
