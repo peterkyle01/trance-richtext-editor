@@ -1,0 +1,227 @@
+/* ============================================================
+   trance-richtext-editor — Design Tokens
+   CSS Custom Properties for theming the editor and renderer.
+   ============================================================ */
+
+:root,
+[data-trance-theme='light'] {
+  /* ---- Surface & Background ---- */
+  --trance-bg: #ffffff;
+  --trance-bg-secondary: #f9fafb;
+  --trance-surface: #f3f4f6;
+  --trance-surface-hover: #e5e7eb;
+  --trance-surface-active: #d1d5db;
+
+  /* ---- Text ---- */
+  --trance-text: #111827;
+  --trance-text-secondary: #4b5563;
+  --trance-text-muted: #9ca3af;
+  --trance-text-inverse: #ffffff;
+
+  /* ---- Accent ---- */
+  --trance-accent: #6366f1;
+  --trance-accent-hover: #4f46e5;
+  --trance-accent-light: #e0e7ff;
+  --trance-accent-text: #ffffff;
+
+  /* ---- Borders ---- */
+  --trance-border: #e5e7eb;
+  --trance-border-strong: #d1d5db;
+  --trance-border-focus: #6366f1;
+
+  /* ---- Toolbar ---- */
+  --trance-toolbar-bg: #ffffff;
+  --trance-toolbar-border: #e5e7eb;
+  --trance-toolbar-btn-hover: #f3f4f6;
+  --trance-toolbar-btn-active: #e0e7ff;
+  --trance-toolbar-btn-active-text: #4338ca;
+  --trance-toolbar-separator: #e5e7eb;
+
+  /* ---- Editor ---- */
+  --trance-editor-bg: #ffffff;
+  --trance-editor-placeholder: #9ca3af;
+  --trance-editor-selection: #dbeafe;
+  --trance-editor-highlight: #fef08a;
+
+  /* ---- Code ---- */
+  --trance-code-bg: #f3f4f6;
+  --trance-code-text: #e11d48;
+  --trance-code-block-bg: #1e1e2e;
+  --trance-code-block-text: #cdd6f4;
+
+  /* ---- Table ---- */
+  --trance-table-border: #e5e7eb;
+  --trance-table-header-bg: #f9fafb;
+  --trance-table-stripe-bg: #f9fafb;
+  --trance-table-hover-bg: #f3f4f6;
+
+  /* ---- Blockquote ---- */
+  --trance-blockquote-border: #6366f1;
+  --trance-blockquote-bg: #f5f3ff;
+  --trance-blockquote-text: #4b5563;
+
+  /* ---- Link ---- */
+  --trance-link-color: #6366f1;
+  --trance-link-hover: #4f46e5;
+
+  /* ---- Shadows ---- */
+  --trance-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --trance-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --trance-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --trance-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --trance-shadow-float: 0 8px 30px rgba(0, 0, 0, 0.12);
+
+  /* ---- Radii ---- */
+  --trance-radius-sm: 4px;
+  --trance-radius: 6px;
+  --trance-radius-md: 8px;
+  --trance-radius-lg: 12px;
+  --trance-radius-full: 9999px;
+
+  /* ---- Spacing ---- */
+  --trance-spacing-xs: 4px;
+  --trance-spacing-sm: 8px;
+  --trance-spacing-md: 12px;
+  --trance-spacing-lg: 16px;
+  --trance-spacing-xl: 24px;
+
+  /* ---- Typography ---- */
+  --trance-font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --trance-font-mono: 'JetBrains Mono', 'Fira Code', 'Cascadia Code',
+    ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  --trance-font-size-xs: 0.75rem;
+  --trance-font-size-sm: 0.875rem;
+  --trance-font-size-base: 1rem;
+  --trance-font-size-lg: 1.125rem;
+  --trance-font-size-xl: 1.25rem;
+  --trance-font-size-2xl: 1.5rem;
+  --trance-font-size-3xl: 1.875rem;
+  --trance-font-size-4xl: 2.25rem;
+  --trance-line-height: 1.7;
+  --trance-line-height-tight: 1.3;
+
+  /* ---- Transitions ---- */
+  --trance-transition-fast: 100ms ease;
+  --trance-transition: 150ms ease;
+  --trance-transition-slow: 250ms ease;
+}
+
+[data-trance-theme='dark'] {
+  /* ---- Surface & Background ---- */
+  --trance-bg: #0f172a;
+  --trance-bg-secondary: #1e293b;
+  --trance-surface: #1e293b;
+  --trance-surface-hover: #334155;
+  --trance-surface-active: #475569;
+
+  /* ---- Text ---- */
+  --trance-text: #f1f5f9;
+  --trance-text-secondary: #cbd5e1;
+  --trance-text-muted: #64748b;
+  --trance-text-inverse: #0f172a;
+
+  /* ---- Accent ---- */
+  --trance-accent: #818cf8;
+  --trance-accent-hover: #a5b4fc;
+  --trance-accent-light: #1e1b4b;
+  --trance-accent-text: #0f172a;
+
+  /* ---- Borders ---- */
+  --trance-border: #334155;
+  --trance-border-strong: #475569;
+  --trance-border-focus: #818cf8;
+
+  /* ---- Toolbar ---- */
+  --trance-toolbar-bg: #1e293b;
+  --trance-toolbar-border: #334155;
+  --trance-toolbar-btn-hover: #334155;
+  --trance-toolbar-btn-active: #1e1b4b;
+  --trance-toolbar-btn-active-text: #a5b4fc;
+  --trance-toolbar-separator: #334155;
+
+  /* ---- Editor ---- */
+  --trance-editor-bg: #0f172a;
+  --trance-editor-placeholder: #64748b;
+  --trance-editor-selection: #1e3a5f;
+  --trance-editor-highlight: #854d0e;
+
+  /* ---- Code ---- */
+  --trance-code-bg: #1e293b;
+  --trance-code-text: #f472b6;
+  --trance-code-block-bg: #0f172a;
+  --trance-code-block-text: #e2e8f0;
+
+  /* ---- Table ---- */
+  --trance-table-border: #334155;
+  --trance-table-header-bg: #1e293b;
+  --trance-table-stripe-bg: #1e293b;
+  --trance-table-hover-bg: #334155;
+
+  /* ---- Blockquote ---- */
+  --trance-blockquote-border: #818cf8;
+  --trance-blockquote-bg: #1e1b4b;
+  --trance-blockquote-text: #cbd5e1;
+
+  /* ---- Link ---- */
+  --trance-link-color: #818cf8;
+  --trance-link-hover: #a5b4fc;
+
+  /* ---- Shadows ---- */
+  --trance-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --trance-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+  --trance-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.3);
+  --trance-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.3);
+  --trance-shadow-float: 0 8px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Auto theme — follows system preference */
+@media (prefers-color-scheme: dark) {
+  [data-trance-theme='auto'] {
+    --trance-bg: #0f172a;
+    --trance-bg-secondary: #1e293b;
+    --trance-surface: #1e293b;
+    --trance-surface-hover: #334155;
+    --trance-surface-active: #475569;
+    --trance-text: #f1f5f9;
+    --trance-text-secondary: #cbd5e1;
+    --trance-text-muted: #64748b;
+    --trance-text-inverse: #0f172a;
+    --trance-accent: #818cf8;
+    --trance-accent-hover: #a5b4fc;
+    --trance-accent-light: #1e1b4b;
+    --trance-accent-text: #0f172a;
+    --trance-border: #334155;
+    --trance-border-strong: #475569;
+    --trance-border-focus: #818cf8;
+    --trance-toolbar-bg: #1e293b;
+    --trance-toolbar-border: #334155;
+    --trance-toolbar-btn-hover: #334155;
+    --trance-toolbar-btn-active: #1e1b4b;
+    --trance-toolbar-btn-active-text: #a5b4fc;
+    --trance-toolbar-separator: #334155;
+    --trance-editor-bg: #0f172a;
+    --trance-editor-placeholder: #64748b;
+    --trance-editor-selection: #1e3a5f;
+    --trance-editor-highlight: #854d0e;
+    --trance-code-bg: #1e293b;
+    --trance-code-text: #f472b6;
+    --trance-code-block-bg: #0f172a;
+    --trance-code-block-text: #e2e8f0;
+    --trance-table-border: #334155;
+    --trance-table-header-bg: #1e293b;
+    --trance-table-stripe-bg: #1e293b;
+    --trance-table-hover-bg: #334155;
+    --trance-blockquote-border: #818cf8;
+    --trance-blockquote-bg: #1e1b4b;
+    --trance-blockquote-text: #cbd5e1;
+    --trance-link-color: #818cf8;
+    --trance-link-hover: #a5b4fc;
+    --trance-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --trance-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), 0 1px 2px rgba(0, 0, 0, 0.3);
+    --trance-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.35), 0 2px 4px rgba(0, 0, 0, 0.3);
+    --trance-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4), 0 4px 6px rgba(0, 0, 0, 0.3);
+    --trance-shadow-float: 0 8px 30px rgba(0, 0, 0, 0.5);
+  }
+}

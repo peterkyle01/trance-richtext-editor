@@ -1,0 +1,298 @@
+/* ============================================================
+   trance-richtext-editor — Toolbar Styles
+   Styles for the main toolbar and floating toolbar.
+   ============================================================ */
+
+/* ---- Main Toolbar ---- */
+.trance-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 2px;
+  padding: var(--trance-spacing-xs) var(--trance-spacing-sm);
+  background: var(--trance-toolbar-bg);
+  border-bottom: 1px solid var(--trance-toolbar-border);
+  user-select: none;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.trance-toolbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Toolbar Button ---- */
+.trance-toolbar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  border-radius: var(--trance-radius);
+  background: transparent;
+  color: var(--trance-text-secondary);
+  cursor: pointer;
+  transition: all var(--trance-transition-fast);
+  flex-shrink: 0;
+  position: relative;
+}
+
+.trance-toolbar-btn:hover {
+  background: var(--trance-toolbar-btn-hover);
+  color: var(--trance-text);
+}
+
+.trance-toolbar-btn:active {
+  transform: scale(0.94);
+}
+
+.trance-toolbar-btn.active {
+  background: var(--trance-toolbar-btn-active);
+  color: var(--trance-toolbar-btn-active-text);
+}
+
+.trance-toolbar-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.trance-toolbar-btn:disabled:hover {
+  background: transparent;
+  transform: none;
+}
+
+.trance-toolbar-btn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+/* ---- Toolbar Separator ---- */
+.trance-toolbar-separator {
+  width: 1px;
+  height: 20px;
+  background: var(--trance-toolbar-separator);
+  margin: 0 var(--trance-spacing-xs);
+  flex-shrink: 0;
+}
+
+/* ---- Block Type Dropdown ---- */
+.trance-block-dropdown-wrapper {
+  position: relative;
+}
+
+.trance-block-dropdown-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--trance-spacing-xs);
+  height: 32px;
+  padding: 0 var(--trance-spacing-sm);
+  border: none;
+  border-radius: var(--trance-radius);
+  background: transparent;
+  color: var(--trance-text-secondary);
+  font-family: var(--trance-font-sans);
+  font-size: var(--trance-font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--trance-transition-fast);
+  white-space: nowrap;
+  min-width: 100px;
+}
+
+.trance-block-dropdown-trigger:hover {
+  background: var(--trance-toolbar-btn-hover);
+  color: var(--trance-text);
+}
+
+.trance-block-dropdown-trigger svg.chevron {
+  width: 12px;
+  height: 12px;
+  transition: transform var(--trance-transition);
+}
+
+.trance-block-dropdown-trigger[aria-expanded='true'] svg.chevron {
+  transform: rotate(180deg);
+}
+
+.trance-block-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 100;
+  min-width: 160px;
+  padding: var(--trance-spacing-xs);
+  background: var(--trance-toolbar-bg);
+  border: 1px solid var(--trance-border);
+  border-radius: var(--trance-radius-md);
+  box-shadow: var(--trance-shadow-lg);
+  animation: trance-dropdown-in 150ms ease;
+}
+
+@keyframes trance-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.trance-block-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--trance-spacing-sm);
+  width: 100%;
+  padding: var(--trance-spacing-sm) var(--trance-spacing-md);
+  border: none;
+  border-radius: var(--trance-radius);
+  background: transparent;
+  color: var(--trance-text);
+  font-family: var(--trance-font-sans);
+  font-size: var(--trance-font-size-sm);
+  cursor: pointer;
+  transition: background var(--trance-transition-fast);
+  text-align: left;
+}
+
+.trance-block-dropdown-item:hover {
+  background: var(--trance-toolbar-btn-hover);
+}
+
+.trance-block-dropdown-item.active {
+  background: var(--trance-toolbar-btn-active);
+  color: var(--trance-toolbar-btn-active-text);
+}
+
+.trance-block-dropdown-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+
+/* ---- Floating Toolbar ---- */
+.trance-floating-toolbar {
+  position: absolute;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: var(--trance-spacing-xs);
+  background: var(--trance-toolbar-bg);
+  border: 1px solid var(--trance-border);
+  border-radius: var(--trance-radius-md);
+  box-shadow: var(--trance-shadow-float);
+  animation: trance-float-in 150ms ease;
+  pointer-events: auto;
+}
+
+@keyframes trance-float-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* ---- Floating Link Editor ---- */
+.trance-link-editor {
+  position: absolute;
+  z-index: 1001;
+  display: flex;
+  flex-direction: column;
+  gap: var(--trance-spacing-sm);
+  padding: var(--trance-spacing-md);
+  background: var(--trance-toolbar-bg);
+  border: 1px solid var(--trance-border);
+  border-radius: var(--trance-radius-md);
+  box-shadow: var(--trance-shadow-float);
+  animation: trance-float-in 150ms ease;
+  min-width: 280px;
+}
+
+.trance-link-editor-input {
+  width: 100%;
+  padding: var(--trance-spacing-sm) var(--trance-spacing-md);
+  border: 1px solid var(--trance-border);
+  border-radius: var(--trance-radius);
+  background: var(--trance-bg);
+  color: var(--trance-text);
+  font-family: var(--trance-font-sans);
+  font-size: var(--trance-font-size-sm);
+  outline: none;
+  transition: border-color var(--trance-transition-fast);
+}
+
+.trance-link-editor-input:focus {
+  border-color: var(--trance-border-focus);
+}
+
+.trance-link-editor-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--trance-spacing-sm);
+  justify-content: flex-end;
+}
+
+.trance-link-editor-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--trance-spacing-xs) var(--trance-spacing-md);
+  border: none;
+  border-radius: var(--trance-radius);
+  font-family: var(--trance-font-sans);
+  font-size: var(--trance-font-size-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--trance-transition-fast);
+}
+
+.trance-link-editor-btn.primary {
+  background: var(--trance-accent);
+  color: var(--trance-accent-text);
+}
+
+.trance-link-editor-btn.primary:hover {
+  background: var(--trance-accent-hover);
+}
+
+.trance-link-editor-btn.secondary {
+  background: transparent;
+  color: var(--trance-text-secondary);
+}
+
+.trance-link-editor-btn.secondary:hover {
+  background: var(--trance-surface-hover);
+}
+
+/* ---- Tooltip ---- */
+.trance-tooltip {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 4px 8px;
+  background: var(--trance-text);
+  color: var(--trance-text-inverse);
+  font-size: var(--trance-font-size-xs);
+  font-weight: 500;
+  border-radius: var(--trance-radius-sm);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--trance-transition);
+  z-index: 1002;
+}
+
+.trance-toolbar-btn:hover .trance-tooltip {
+  opacity: 1;
+}

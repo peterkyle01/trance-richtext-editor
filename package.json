@@ -1,0 +1,103 @@
+{
+  "name": "trance-richtext-editor",
+  "version": "0.1.0",
+  "description": "A plug-and-play rich text editor for React, powered by Lexical. Drop-in editor with HTML output and a beautiful renderer component.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./renderer": {
+      "import": {
+        "types": "./dist/renderer.d.ts",
+        "default": "./dist/renderer.js"
+      },
+      "require": {
+        "types": "./dist/renderer.d.cts",
+        "default": "./dist/renderer.cjs"
+      }
+    },
+    "./styles.css": "./dist/styles.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "scripts": {
+    "build": "tsup && npm run postbuild",
+    "postbuild": "cat dist/index.css dist/renderer.css > dist/styles.css",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "keywords": [
+    "rich-text-editor",
+    "lexical",
+    "react",
+    "wysiwyg",
+    "editor",
+    "html",
+    "renderer",
+    "trance",
+    "plug-and-play",
+    "content-editable"
+  ],
+  "author": "peterkyle01",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/peterkyle01/trance-richtext-editor"
+  },
+  "homepage": "https://github.com/peterkyle01/trance-richtext-editor#readme",
+  "bugs": {
+    "url": "https://github.com/peterkyle01/trance-richtext-editor/issues"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "dependencies": {
+    "@lexical/code": "^0.29.0",
+    "@lexical/headless": "^0.29.0",
+    "@lexical/history": "^0.29.0",
+    "@lexical/html": "^0.29.0",
+    "@lexical/link": "^0.29.0",
+    "@lexical/list": "^0.29.0",
+    "@lexical/markdown": "^0.29.0",
+    "@lexical/react": "^0.29.0",
+    "@lexical/rich-text": "^0.29.0",
+    "@lexical/selection": "^0.29.0",
+    "@lexical/table": "^0.29.0",
+    "@lexical/utils": "^0.29.0",
+    "dompurify": "^3.2.4",
+    "lexical": "^0.29.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.3.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "jsdom": "^26.1.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tsup": "^8.4.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.2.0"
+  }
+}

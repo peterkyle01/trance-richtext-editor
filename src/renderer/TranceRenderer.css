@@ -1,0 +1,273 @@
+/* ============================================================
+   trance-richtext-editor — Renderer Styles
+   Beautiful typography for rendering editor HTML output.
+   Variables come from variables.css (included via styles.css).
+   ============================================================ */
+
+.trance-renderer {
+  font-family: var(--trance-font-sans);
+  font-size: var(--trance-font-size-base);
+  line-height: var(--trance-line-height);
+  color: var(--trance-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+/* ---- Headings ---- */
+.trance-renderer h1 {
+  font-size: var(--trance-font-size-4xl);
+  font-weight: 800;
+  line-height: var(--trance-line-height-tight);
+  margin: 1.5em 0 0.5em 0;
+  color: var(--trance-text);
+  letter-spacing: -0.025em;
+}
+
+.trance-renderer h1:first-child {
+  margin-top: 0;
+}
+
+.trance-renderer h2 {
+  font-size: var(--trance-font-size-3xl);
+  font-weight: 700;
+  line-height: var(--trance-line-height-tight);
+  margin: 1.4em 0 0.4em 0;
+  color: var(--trance-text);
+  letter-spacing: -0.02em;
+}
+
+.trance-renderer h3 {
+  font-size: var(--trance-font-size-2xl);
+  font-weight: 600;
+  line-height: var(--trance-line-height-tight);
+  margin: 1.3em 0 0.3em 0;
+  color: var(--trance-text);
+}
+
+.trance-renderer h4 {
+  font-size: var(--trance-font-size-xl);
+  font-weight: 600;
+  line-height: var(--trance-line-height-tight);
+  margin: 1.2em 0 0.3em 0;
+}
+
+.trance-renderer h5 {
+  font-size: var(--trance-font-size-lg);
+  font-weight: 600;
+  margin: 1.1em 0 0.2em 0;
+}
+
+.trance-renderer h6 {
+  font-size: var(--trance-font-size-base);
+  font-weight: 600;
+  margin: 1em 0 0.2em 0;
+  color: var(--trance-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* ---- Paragraphs ---- */
+.trance-renderer p {
+  margin: 0 0 0.75em 0;
+}
+
+.trance-renderer p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Links ---- */
+.trance-renderer a {
+  color: var(--trance-link-color);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  text-decoration-thickness: 1px;
+  transition: color 150ms ease, text-decoration-thickness 150ms ease;
+}
+
+.trance-renderer a:hover {
+  color: var(--trance-link-hover);
+  text-decoration-thickness: 2px;
+}
+
+/* ---- Bold, Italic, etc. ---- */
+.trance-renderer strong,
+.trance-renderer b {
+  font-weight: 700;
+}
+
+.trance-renderer em,
+.trance-renderer i {
+  font-style: italic;
+}
+
+.trance-renderer u {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.trance-renderer s,
+.trance-renderer del {
+  text-decoration: line-through;
+}
+
+.trance-renderer mark {
+  background-color: var(--trance-editor-highlight);
+  padding: 1px 3px;
+  border-radius: 2px;
+}
+
+.trance-renderer sub {
+  font-size: 0.75em;
+  vertical-align: sub;
+}
+
+.trance-renderer sup {
+  font-size: 0.75em;
+  vertical-align: super;
+}
+
+/* ---- Inline Code ---- */
+.trance-renderer code {
+  font-family: var(--trance-font-mono);
+  font-size: 0.9em;
+  background: var(--trance-code-bg);
+  color: var(--trance-code-text);
+  padding: 2px 6px;
+  border-radius: var(--trance-radius-sm);
+  font-weight: 500;
+}
+
+/* ---- Code Block ---- */
+.trance-renderer pre {
+  font-family: var(--trance-font-mono);
+  font-size: var(--trance-font-size-sm);
+  background: var(--trance-code-block-bg);
+  color: var(--trance-code-block-text);
+  padding: var(--trance-spacing-lg);
+  margin: 1em 0;
+  border-radius: var(--trance-radius-md);
+  overflow-x: auto;
+  line-height: 1.6;
+  tab-size: 2;
+}
+
+.trance-renderer pre code {
+  background: transparent;
+  color: inherit;
+  padding: 0;
+  font-size: inherit;
+  border-radius: 0;
+}
+
+/* ---- Lists ---- */
+.trance-renderer ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+  margin: 0.75em 0;
+}
+
+.trance-renderer ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+  margin: 0.75em 0;
+}
+
+.trance-renderer li {
+  margin: 0.25em 0;
+}
+
+.trance-renderer ul ul {
+  list-style-type: circle;
+}
+
+.trance-renderer ul ul ul {
+  list-style-type: square;
+}
+
+/* ---- Blockquote ---- */
+.trance-renderer blockquote {
+  border-left: 4px solid var(--trance-blockquote-border);
+  background: var(--trance-blockquote-bg);
+  color: var(--trance-blockquote-text);
+  margin: 1em 0;
+  padding: 0.75em 1em;
+  border-radius: 0 var(--trance-radius) var(--trance-radius) 0;
+  font-style: italic;
+}
+
+.trance-renderer blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* ---- Tables ---- */
+.trance-renderer table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1em 0;
+  font-size: var(--trance-font-size-sm);
+  border: 1px solid var(--trance-table-border);
+  border-radius: var(--trance-radius);
+  overflow: hidden;
+}
+
+.trance-renderer th {
+  background: var(--trance-table-header-bg);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.5em 0.75em;
+  border: 1px solid var(--trance-table-border);
+}
+
+.trance-renderer td {
+  padding: 0.5em 0.75em;
+  border: 1px solid var(--trance-table-border);
+  vertical-align: top;
+}
+
+.trance-renderer tr:nth-child(even) {
+  background: var(--trance-table-stripe-bg);
+}
+
+/* ---- Horizontal Rule ---- */
+.trance-renderer hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--trance-border-strong),
+    transparent
+  );
+  margin: 2em 0;
+}
+
+/* ---- Images ---- */
+.trance-renderer img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--trance-radius-md);
+  margin: 0.5em 0;
+}
+
+.trance-renderer figure {
+  margin: 1em 0;
+}
+
+.trance-renderer figcaption {
+  text-align: center;
+  font-size: var(--trance-font-size-sm);
+  color: var(--trance-text-muted);
+  margin-top: 0.25em;
+  font-style: italic;
+}
+
+/* ---- Responsive table wrapper ---- */
+@media (max-width: 640px) {
+  .trance-renderer table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
