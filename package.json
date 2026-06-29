@@ -38,7 +38,7 @@
   "scripts": {
     "build": "tsup && npm run postbuild",
     "postbuild": "cat dist/index.css dist/renderer.css > dist/styles.css",
-    "dev": "tsup --watch",
+    "dev": "tsup --watch & npm --prefix examples/basic run dev",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
