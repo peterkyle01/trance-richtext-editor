@@ -316,7 +316,7 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
   const handleImport = useCallback(async () => {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = ".docx,.pdf";
+    input.accept = ".docx";
     input.onchange = async () => {
       const file = input.files?.[0];
       if (!file) return;
@@ -325,7 +325,7 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
         await importDocument(editor, file);
       } catch (error) {
         console.error("Document import failed:", error);
-        alert("Failed to import document. Please try a .docx or .pdf file.");
+        alert("Failed to import document. Please try a .docx file.");
       }
     };
     input.click();
