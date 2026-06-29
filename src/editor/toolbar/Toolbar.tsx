@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 import {
   $getSelection,
@@ -36,6 +36,7 @@ import { INSERT_TABLE_COMMAND } from "@lexical/table";
 
 import { ToolbarButton, ToolbarSeparator } from "./ToolbarButton";
 import { BlockTypeDropdown } from "./BlockTypeDropdown";
+import { TableSizePicker } from "./TableSizePicker";
 import {
   BoldIcon,
   ItalicIcon,
@@ -114,6 +115,8 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
   // History
   const [canUndo, setCanUndo] = useState(false);
   const [canRedo, setCanRedo] = useState(false);
+  const [showTablePicker, setShowTablePicker] = useState(false);
+  const tableButtonRef = useRef<HTMLDivElement>(null);
 
   const $updateToolbar = useCallback(() => {
     const selection = $getSelection();
@@ -295,13 +298,17 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
     }
   }, [editor, isLink, normalizeUrl]);
 
-  const handleTableInsert = useCallback(() => {
-    editor.dispatchCommand(INSERT_TABLE_COMMAND, {
-      rows: "3",
-      columns: "3",
-      includeHeaders: true,
-    });
-  }, [editor]);
+  const handleTableInsert = useCallback(
+    (rows: number, columns: number) => {
+      editor.dispatchCommand(INSERT_TABLE_COMMAND, {
+        rows: String(rows),
+        columns: String(columns),
+        includeHeaders: true,
+      });
+      setShowTablePicker(false);
+    },
+    [editor],
+  );
 
   return (
     <div className="trance-toolbar" role="toolbar" aria-label="Text formatting">
@@ -466,11 +473,21 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
         />
       )}
       {features.table !== false && (
-        <ToolbarButton
-          icon={<TableIcon />}
-          label="Insert Table"
-          onClick={handleTableInsert}
-        />
+        <div ref={tableButtonRef} className="trance-table-dropdown-wrapper">
+          <ToolbarButton
+            icon={<TableIcon />}
+            label="Insert Table"
+            onClick={() => setShowTablePicker(!showTablePicker)}
+            active={showTablePicker}
+          />
+          {showTablePicker && (
+            <TableSizePicker
+              triggerRef={tableButtonRef}
+              onSelect={handleTableInsert}
+              onCancel={() => setShowTablePicker(false)}
+            />
+          )}
+        </div>
       )}
       {features.horizontalRule !== false && (
         <ToolbarButton
