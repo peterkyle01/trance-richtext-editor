@@ -59,9 +59,11 @@ import {
   HighlightIcon,
   SuperscriptIcon,
   SubscriptIcon,
+  ImportIcon,
 } from "./icons";
 import { INSERT_IMAGE_COMMAND } from "../plugins/ImagesPlugin";
 import { INSERT_HORIZONTAL_RULE_COMMAND } from "../plugins/HorizontalRulePlugin";
+import { importDocument } from "../utils/importDocument";
 
 export interface ToolbarFeatures {
   bold?: boolean;
@@ -83,6 +85,7 @@ export interface ToolbarFeatures {
   superscript?: boolean;
   subscript?: boolean;
   highlight?: boolean;
+  import?: boolean;
 }
 
 interface ToolbarProps {
@@ -310,6 +313,24 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
     [editor],
   );
 
+  const handleImport = useCallback(async () => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".docx,.pdf";
+    input.onchange = async () => {
+      const file = input.files?.[0];
+      if (!file) return;
+
+      try {
+        await importDocument(editor, file);
+      } catch (error) {
+        console.error("Document import failed:", error);
+        alert("Failed to import document. Please try a .docx or .pdf file.");
+      }
+    };
+    input.click();
+  }, [editor]);
+
   return (
     <div className="trance-toolbar" role="toolbar" aria-label="Text formatting">
       {/* Undo / Redo */}
@@ -496,6 +517,13 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           onClick={() =>
             editor.dispatchCommand(INSERT_HORIZONTAL_RULE_COMMAND, undefined)
           }
+        />
+      )}
+      {features.import !== false && (
+        <ToolbarButton
+          icon={<ImportIcon />}
+          label="Import Document"
+          onClick={handleImport}
         />
       )}
 

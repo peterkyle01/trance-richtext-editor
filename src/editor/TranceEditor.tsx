@@ -123,6 +123,7 @@ function EditorInner({
     superscript: true,
     subscript: true,
     highlight: true,
+    import: true,
     ...features,
   };
 
