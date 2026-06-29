@@ -12,8 +12,8 @@ interface TableSizePickerProps {
   onCancel: () => void;
 }
 
-const MAX_ROWS = 8;
-const MAX_COLS = 8;
+const MAX_ROWS = 10;
+const MAX_COLS = 10;
 
 /**
  * Grid-based table size selector.
