@@ -1,12 +1,12 @@
-import { useState } from 'react';
-import { TranceEditor } from 'trance-richtext-editor';
-import { TranceRenderer } from 'trance-richtext-editor/renderer';
-import 'trance-richtext-editor/styles.css';
-import './App.css';
+import { useState } from "react";
+import { TranceEditor } from "trance-richtext-editor";
+import { TranceRenderer } from "trance-richtext-editor/renderer";
+import "trance-richtext-editor/styles.css";
+import "./App.css";
 
 function App() {
-  const [html, setHtml] = useState('');
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [html, setHtml] = useState("");
+  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [showPreview, setShowPreview] = useState(true);
 
   return (
@@ -24,14 +24,14 @@ function App() {
             className="toggle-btn"
             onClick={() => setShowPreview(!showPreview)}
           >
-            {showPreview ? 'Hide' : 'Show'} Preview
+            {showPreview ? "Hide" : "Show"} Preview
           </button>
           <button
             className="theme-toggle"
-            onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+            onClick={() => setTheme(theme === "light" ? "dark" : "light")}
             aria-label="Toggle theme"
           >
-            {theme === 'light' ? '🌙' : '☀️'}
+            {theme === "light" ? "🌙" : "☀️"}
           </button>
         </div>
       </header>
@@ -71,15 +71,15 @@ function App() {
 
       <footer className="app-footer">
         <p>
-          Built with{' '}
+          Built with{" "}
           <a
             href="https://github.com/peterkyle01/trance-richtext-editor"
             target="_blank"
             rel="noopener"
           >
             trance-richtext-editor
-          </a>{' '}
-          · Powered by{' '}
+          </a>{" "}
+          · Powered by{" "}
           <a href="https://lexical.dev" target="_blank" rel="noopener">
             Lexical
           </a>

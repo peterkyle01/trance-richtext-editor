@@ -4,368 +4,476 @@
    ============================================================ */
 
 .trance-editor-wrapper {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid var(--trance-border);
-  border-radius: var(--trance-radius-md);
-  background: var(--trance-editor-bg);
-  box-shadow: var(--trance-shadow-sm);
-  overflow: visible;
-  font-family: var(--trance-font-sans);
-  transition: border-color var(--trance-transition), box-shadow var(--trance-transition);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--trance-border);
+    border-radius: var(--trance-radius-md);
+    background: var(--trance-editor-bg);
+    box-shadow: var(--trance-shadow-sm);
+    overflow: visible;
+    font-family: var(--trance-font-sans);
+    transition:
+        border-color var(--trance-transition),
+        box-shadow var(--trance-transition);
 }
 
 .trance-editor-wrapper:focus-within {
-  border-color: var(--trance-border-focus);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+    border-color: var(--trance-border-focus);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
 /* ---- Content Editable ---- */
 .trance-editor-content {
-  position: relative;
-  min-height: 200px;
-  padding: var(--trance-spacing-lg) var(--trance-spacing-xl);
-  color: var(--trance-text);
-  font-size: var(--trance-font-size-base);
-  line-height: var(--trance-line-height);
-  outline: none;
-  caret-color: var(--trance-accent);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    position: relative;
+    min-height: 200px;
+    padding: var(--trance-spacing-lg) var(--trance-spacing-xl);
+    color: var(--trance-text);
+    font-size: var(--trance-font-size-base);
+    line-height: var(--trance-line-height);
+    outline: none;
+    caret-color: var(--trance-accent);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 .trance-editor-content [data-lexical-editor] {
-  outline: none;
+    outline: none;
 }
 
 /* ---- Placeholder ---- */
 .trance-editor-placeholder {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: var(--trance-spacing-lg) var(--trance-spacing-xl);
-  color: var(--trance-editor-placeholder);
-  font-size: var(--trance-font-size-base);
-  line-height: var(--trance-line-height);
-  pointer-events: none;
-  user-select: none;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: var(--trance-spacing-lg) var(--trance-spacing-xl);
+    color: var(--trance-editor-placeholder);
+    font-size: var(--trance-font-size-base);
+    line-height: var(--trance-line-height);
+    pointer-events: none;
+    user-select: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* ---- Paragraphs ---- */
 .trance-paragraph {
-  margin: 0 0 var(--trance-spacing-sm) 0;
+    margin: 0 0 var(--trance-spacing-sm) 0;
 }
 
 .trance-paragraph:last-child {
-  margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 /* ---- Headings ---- */
 .trance-h1 {
-  font-size: var(--trance-font-size-4xl);
-  font-weight: 800;
-  line-height: var(--trance-line-height-tight);
-  margin: var(--trance-spacing-xl) 0 var(--trance-spacing-md) 0;
-  color: var(--trance-text);
-  letter-spacing: -0.025em;
+    font-size: var(--trance-font-size-4xl);
+    font-weight: 800;
+    line-height: var(--trance-line-height-tight);
+    margin: var(--trance-spacing-xl) 0 var(--trance-spacing-md) 0;
+    color: var(--trance-text);
+    letter-spacing: -0.025em;
 }
 
 .trance-h2 {
-  font-size: var(--trance-font-size-3xl);
-  font-weight: 700;
-  line-height: var(--trance-line-height-tight);
-  margin: var(--trance-spacing-xl) 0 var(--trance-spacing-sm) 0;
-  color: var(--trance-text);
-  letter-spacing: -0.02em;
+    font-size: var(--trance-font-size-3xl);
+    font-weight: 700;
+    line-height: var(--trance-line-height-tight);
+    margin: var(--trance-spacing-xl) 0 var(--trance-spacing-sm) 0;
+    color: var(--trance-text);
+    letter-spacing: -0.02em;
 }
 
 .trance-h3 {
-  font-size: var(--trance-font-size-2xl);
-  font-weight: 600;
-  line-height: var(--trance-line-height-tight);
-  margin: var(--trance-spacing-lg) 0 var(--trance-spacing-sm) 0;
-  color: var(--trance-text);
+    font-size: var(--trance-font-size-2xl);
+    font-weight: 600;
+    line-height: var(--trance-line-height-tight);
+    margin: var(--trance-spacing-lg) 0 var(--trance-spacing-sm) 0;
+    color: var(--trance-text);
 }
 
 .trance-h4 {
-  font-size: var(--trance-font-size-xl);
-  font-weight: 600;
-  line-height: var(--trance-line-height-tight);
-  margin: var(--trance-spacing-lg) 0 var(--trance-spacing-xs) 0;
-  color: var(--trance-text);
+    font-size: var(--trance-font-size-xl);
+    font-weight: 600;
+    line-height: var(--trance-line-height-tight);
+    margin: var(--trance-spacing-lg) 0 var(--trance-spacing-xs) 0;
+    color: var(--trance-text);
 }
 
 .trance-h5 {
-  font-size: var(--trance-font-size-lg);
-  font-weight: 600;
-  line-height: var(--trance-line-height-tight);
-  margin: var(--trance-spacing-md) 0 var(--trance-spacing-xs) 0;
-  color: var(--trance-text);
+    font-size: var(--trance-font-size-lg);
+    font-weight: 600;
+    line-height: var(--trance-line-height-tight);
+    margin: var(--trance-spacing-md) 0 var(--trance-spacing-xs) 0;
+    color: var(--trance-text);
 }
 
 .trance-h6 {
-  font-size: var(--trance-font-size-base);
-  font-weight: 600;
-  line-height: var(--trance-line-height-tight);
-  margin: var(--trance-spacing-md) 0 var(--trance-spacing-xs) 0;
-  color: var(--trance-text-secondary);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+    font-size: var(--trance-font-size-base);
+    font-weight: 600;
+    line-height: var(--trance-line-height-tight);
+    margin: var(--trance-spacing-md) 0 var(--trance-spacing-xs) 0;
+    color: var(--trance-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
 }
 
 /* ---- Inline Text Formatting ---- */
 .trance-bold {
-  font-weight: 700;
+    font-weight: 700;
 }
 
 .trance-italic {
-  font-style: italic;
+    font-style: italic;
 }
 
 .trance-underline {
-  text-decoration: underline;
-  text-underline-offset: 2px;
+    text-decoration: underline;
+    text-underline-offset: 2px;
 }
 
 .trance-strikethrough {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
 
 .trance-underline.trance-strikethrough {
-  text-decoration: underline line-through;
+    text-decoration: underline line-through;
 }
 
 .trance-subscript {
-  font-size: 0.75em;
-  vertical-align: sub;
+    font-size: 0.75em;
+    vertical-align: sub;
 }
 
 .trance-superscript {
-  font-size: 0.75em;
-  vertical-align: super;
+    font-size: 0.75em;
+    vertical-align: super;
 }
 
 .trance-highlight {
-  background-color: var(--trance-editor-highlight);
-  padding: 1px 3px;
-  border-radius: 2px;
+    background-color: var(--trance-editor-highlight);
+    padding: 1px 3px;
+    border-radius: 2px;
 }
 
 .trance-inline-code {
-  font-family: var(--trance-font-mono);
-  font-size: 0.9em;
-  background: var(--trance-code-bg);
-  color: var(--trance-code-text);
-  padding: 2px 6px;
-  border-radius: var(--trance-radius-sm);
-  font-weight: 500;
+    font-family: var(--trance-font-mono);
+    font-size: 0.9em;
+    background: var(--trance-code-bg);
+    color: var(--trance-code-text);
+    padding: 2px 6px;
+    border-radius: var(--trance-radius-sm);
+    font-weight: 500;
 }
 
 /* ---- Links ---- */
 .trance-link {
-  color: var(--trance-link-color);
-  text-decoration: underline;
-  text-underline-offset: 2px;
-  text-decoration-thickness: 1px;
-  cursor: pointer;
-  transition: color var(--trance-transition-fast);
+    color: var(--trance-link-color);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    text-decoration-thickness: 1px;
+    cursor: pointer;
+    transition: color var(--trance-transition-fast);
 }
 
 .trance-link:hover {
-  color: var(--trance-link-hover);
-  text-decoration-thickness: 2px;
+    color: var(--trance-link-hover);
+    text-decoration-thickness: 2px;
 }
 
 /* ---- Lists ---- */
 .trance-ul {
-  list-style-type: disc;
-  padding-left: 1.5em;
-  margin: var(--trance-spacing-sm) 0;
+    list-style-type: disc;
+    padding-left: 1.5em;
+    margin: var(--trance-spacing-sm) 0;
 }
 
 .trance-ol {
-  list-style-type: decimal;
-  padding-left: 1.5em;
-  margin: var(--trance-spacing-sm) 0;
+    list-style-type: decimal;
+    padding-left: 1.5em;
+    margin: var(--trance-spacing-sm) 0;
 }
 
 .trance-li {
-  margin: var(--trance-spacing-xs) 0;
+    margin: var(--trance-spacing-xs) 0;
 }
 
 .trance-li-checked,
 .trance-li-unchecked {
-  list-style-type: none;
-  position: relative;
-  padding-left: 1.5em;
-  margin-left: -1.5em;
+    list-style-type: none;
+    position: relative;
+    padding-left: 1.5em;
+    margin-left: -1.5em;
 }
 
 .trance-li-checked::before,
 .trance-li-unchecked::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0.35em;
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--trance-border-strong);
-  border-radius: var(--trance-radius-sm);
-  cursor: pointer;
-  transition: all var(--trance-transition-fast);
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.35em;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--trance-border-strong);
+    border-radius: var(--trance-radius-sm);
+    cursor: pointer;
+    transition: all var(--trance-transition-fast);
 }
 
 .trance-li-checked::before {
-  background: var(--trance-accent);
-  border-color: var(--trance-accent);
+    background: var(--trance-accent);
+    border-color: var(--trance-accent);
 }
 
 .trance-li-checked::after {
-  content: '';
-  position: absolute;
-  left: 5px;
-  top: 0.4em;
-  width: 6px;
-  height: 10px;
-  border: solid var(--trance-accent-text);
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 0.4em;
+    width: 6px;
+    height: 10px;
+    border: solid var(--trance-accent-text);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
 }
 
 .trance-li-checked {
-  text-decoration: line-through;
-  color: var(--trance-text-muted);
+    text-decoration: line-through;
+    color: var(--trance-text-muted);
 }
 
 /* ---- Nested Lists ---- */
 .trance-ul .trance-ul {
-  list-style-type: circle;
+    list-style-type: circle;
 }
 
 .trance-ul .trance-ul .trance-ul {
-  list-style-type: square;
+    list-style-type: square;
 }
 
 /* ---- Blockquote ---- */
 .trance-quote {
-  border-left: 4px solid var(--trance-blockquote-border);
-  background: var(--trance-blockquote-bg);
-  color: var(--trance-blockquote-text);
-  margin: var(--trance-spacing-md) 0;
-  padding: var(--trance-spacing-md) var(--trance-spacing-lg);
-  border-radius: 0 var(--trance-radius) var(--trance-radius) 0;
-  font-style: italic;
+    border-left: 4px solid var(--trance-blockquote-border);
+    background: var(--trance-blockquote-bg);
+    color: var(--trance-blockquote-text);
+    margin: var(--trance-spacing-md) 0;
+    padding: var(--trance-spacing-md) var(--trance-spacing-lg);
+    border-radius: 0 var(--trance-radius) var(--trance-radius) 0;
+    font-style: italic;
 }
 
 /* ---- Code Block ---- */
 .trance-code-block {
-  font-family: var(--trance-font-mono);
-  font-size: var(--trance-font-size-sm);
-  background: var(--trance-code-block-bg);
-  color: var(--trance-code-block-text);
-  padding: var(--trance-spacing-lg);
-  margin: var(--trance-spacing-md) 0;
-  border-radius: var(--trance-radius-md);
-  overflow-x: auto;
-  line-height: 1.6;
-  tab-size: 2;
-  white-space: pre;
+    font-family: var(--trance-font-mono);
+    font-size: var(--trance-font-size-sm);
+    background: var(--trance-code-block-bg);
+    color: var(--trance-code-block-text);
+    padding: var(--trance-spacing-lg);
+    margin: var(--trance-spacing-md) 0;
+    border-radius: var(--trance-radius-md);
+    overflow-x: auto;
+    line-height: 1.6;
+    tab-size: 2;
+    white-space: pre;
 }
 
 /* ---- Table ---- */
 .trance-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: var(--trance-spacing-md) 0;
-  font-size: var(--trance-font-size-sm);
-  overflow: hidden;
-  border-radius: var(--trance-radius);
-  border: 1px solid var(--trance-table-border);
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--trance-spacing-md) 0;
+    font-size: var(--trance-font-size-sm);
+    overflow: hidden;
+    border-radius: var(--trance-radius);
+    border: 1px solid var(--trance-table-border);
 }
 
 .trance-table-cell-header {
-  background: var(--trance-table-header-bg);
-  font-weight: 600;
-  text-align: left;
-  padding: var(--trance-spacing-sm) var(--trance-spacing-md);
-  border: 1px solid var(--trance-table-border);
+    background: var(--trance-table-header-bg);
+    font-weight: 600;
+    text-align: left;
+    padding: var(--trance-spacing-sm) var(--trance-spacing-md);
+    border: 1px solid var(--trance-table-border);
 }
 
 .trance-table-cell {
-  padding: var(--trance-spacing-sm) var(--trance-spacing-md);
-  border: 1px solid var(--trance-table-border);
-  vertical-align: top;
+    padding: var(--trance-spacing-sm) var(--trance-spacing-md);
+    border: 1px solid var(--trance-table-border);
+    vertical-align: top;
 }
 
 .trance-table-row-striped {
-  background: var(--trance-table-stripe-bg);
+    background: var(--trance-table-stripe-bg);
 }
 
 /* ---- Horizontal Rule ---- */
 .trance-hr {
-  border: none;
-  height: 2px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    var(--trance-border-strong),
-    transparent
-  );
-  margin: var(--trance-spacing-xl) 0;
+    border: none;
+    height: 2px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--trance-border-strong),
+        transparent
+    );
+    margin: var(--trance-spacing-xl) 0;
 }
 
 /* ---- Image ---- */
 .trance-image-wrapper {
-  display: inline-block;
-  position: relative;
-  max-width: 100%;
-  margin: var(--trance-spacing-md) 0;
-  border-radius: var(--trance-radius-md);
-  overflow: hidden;
-  cursor: default;
+    display: block;
+    position: relative;
+    width: fit-content;
+    max-width: 100%;
+    margin: var(--trance-spacing-md) 0;
+    border-radius: var(--trance-radius-md);
+    cursor: default;
+    user-select: none;
 }
 
-.trance-image-wrapper img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-  border-radius: var(--trance-radius-md);
+.trance-image-inner {
+    position: relative;
+    display: inline-block;
+    max-width: 100%;
 }
 
-.trance-image-wrapper.focused {
-  outline: 3px solid var(--trance-accent);
-  outline-offset: 2px;
+.trance-image-inner figure {
+    margin: 0;
+}
+
+.trance-image-inner img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--trance-radius-md);
+}
+
+.trance-image-inner.selected img {
+    outline: 2px solid var(--trance-accent);
+    outline-offset: 2px;
+}
+
+/* Image alignment */
+.trance-image-wrapper.align-left {
+    margin-right: auto;
+    margin-left: 0;
+}
+
+.trance-image-wrapper.align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.trance-image-wrapper.align-right {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* Image toolbar (alignment controls) */
+.trance-image-toolbar {
+    position: absolute;
+    top: -36px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px;
+    background: var(--trance-toolbar-bg);
+    border: 1px solid var(--trance-border);
+    border-radius: var(--trance-radius-md);
+    box-shadow: var(--trance-shadow-float);
+    z-index: 100;
+    animation: trance-image-toolbar-in 150ms ease;
+}
+
+@keyframes trance-image-toolbar-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+}
+
+.trance-image-toolbar button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: var(--trance-radius);
+    background: transparent;
+    color: var(--trance-text-secondary);
+    cursor: pointer;
+    transition: all var(--trance-transition-fast);
+}
+
+.trance-image-toolbar button:hover {
+    background: var(--trance-toolbar-btn-hover);
+    color: var(--trance-text);
+}
+
+.trance-image-toolbar button.active {
+    background: var(--trance-toolbar-btn-active);
+    color: var(--trance-toolbar-btn-active-text);
+}
+
+.trance-image-toolbar button svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* Image resize handle */
+.trance-image-resize-handle {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 12px;
+    height: 12px;
+    background: var(--trance-accent);
+    border: 2px solid var(--trance-bg);
+    border-radius: var(--trance-radius-sm);
+    cursor: nwse-resize;
+    z-index: 10;
+    box-shadow: var(--trance-shadow);
+}
+
+.trance-image-resize-handle:hover {
+    background: var(--trance-accent-hover);
+    transform: scale(1.1);
 }
 
 .trance-image-caption {
-  text-align: center;
-  font-size: var(--trance-font-size-sm);
-  color: var(--trance-text-muted);
-  margin-top: var(--trance-spacing-xs);
-  font-style: italic;
+    text-align: center;
+    font-size: var(--trance-font-size-sm);
+    color: var(--trance-text-muted);
+    margin-top: var(--trance-spacing-xs);
+    font-style: italic;
 }
 
 /* ---- Text Alignment ---- */
 .trance-text-left {
-  text-align: left;
+    text-align: left;
 }
 
 .trance-text-center {
-  text-align: center;
+    text-align: center;
 }
 
 .trance-text-right {
-  text-align: right;
+    text-align: right;
 }
 
 .trance-text-justify {
-  text-align: justify;
+    text-align: justify;
 }
 
 /* ---- Indentation ---- */
 .trance-indent {
-  --lexical-indent-base-value: 40px;
+    --lexical-indent-base-value: 40px;
 }
