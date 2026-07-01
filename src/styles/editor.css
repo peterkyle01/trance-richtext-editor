@@ -18,12 +18,8 @@
         box-shadow var(--trance-transition);
 }
 
-.trance-editor-wrapper > .trance-toolbar {
+.trance-editor-wrapper>.trance-toolbar {
     flex-shrink: 0;
-}
-
-.trance-editor-content {
-    flex: 1 1 auto;
 }
 
 .trance-editor-wrapper:focus-within {
@@ -34,6 +30,7 @@
 /* ---- Content Editable ---- */
 .trance-editor-content {
     position: relative;
+    flex: 1 1 auto;
     min-height: 200px;
     padding: var(--trance-spacing-lg) var(--trance-spacing-xl);
     color: var(--trance-text);
@@ -345,12 +342,10 @@
 .trance-hr {
     border: none;
     height: 2px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--trance-border-strong),
-        transparent
-    );
+    background: linear-gradient(90deg,
+            transparent,
+            var(--trance-border-strong),
+            transparent);
     margin: var(--trance-spacing-xl) 0;
 }
 
@@ -446,6 +441,7 @@
         opacity: 0;
         transform: translateX(-50%) translateY(4px);
     }
+
     to {
         opacity: 1;
         transform: translateX(-50%) translateY(0);

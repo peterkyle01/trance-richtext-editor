@@ -5,8 +5,8 @@ import React, {
   useImperativeHandle,
   useRef,
 } from "react";
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
+import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
@@ -104,6 +104,7 @@ function EditorInner({
   debounceMs,
   editorRef,
 }: TranceEditorProps & { editorRef?: React.Ref<TranceEditorRef> }) {
+  const [editor] = useLexicalComposerContext();
   const resolvedFeatures: ToolbarFeatures = {
     bold: true,
     italic: true,
@@ -129,6 +130,47 @@ function EditorInner({
   };
 
   const backgroundLayerRef = useRef<HTMLDivElement>(null);
+
+  useImperativeHandle(
+    editorRef,
+    () => ({
+      getHtml: () => {
+        let html = "";
+        editor.read(() => {
+          html = $generateHtmlFromNodes(editor, null);
+        });
+        return html;
+      },
+      getJson: () => {
+        return editor.getEditorState().toJSON();
+      },
+      setHtml: (html: string) => {
+        editor.update(() => {
+          const parser = new DOMParser();
+          const dom = parser.parseFromString(html, "text/html");
+          const nodes = $generateNodesFromDOM(editor, dom);
+          const root = $getRoot();
+          root.clear();
+          root.append(...nodes);
+        });
+      },
+      setJson: (json: SerializedEditorState) => {
+        const editorState = editor.parseEditorState(json);
+        editor.setEditorState(editorState);
+      },
+      focus: () => {
+        editor.focus();
+      },
+      clear: () => {
+        editor.update(() => {
+          const root = $getRoot();
+          root.clear();
+        });
+      },
+      getLexicalEditor: () => editor,
+    }),
+    [editor],
+  );
 
   return (
     <ImageBackgroundContext.Provider value={backgroundLayerRef}>
@@ -172,61 +214,8 @@ function EditorInner({
       <ImagesPlugin onImageUpload={onImageUpload} />
       <HorizontalRulePlugin />
       {maxLength !== undefined && <MaxLengthPlugin maxLength={maxLength} />}
-
-      {/* Ref bridge */}
-      {editorRef && <EditorRefPlugin editorRef={editorRef} />}
     </ImageBackgroundContext.Provider>
   );
-}
-
-/**
- * Internal plugin that exposes ref methods using the Lexical context.
- */
-function EditorRefPlugin({
-  editorRef,
-}: {
-  editorRef: React.Ref<TranceEditorRef>;
-}) {
-  const [editor] = useLexicalComposerContext();
-
-  useImperativeHandle(editorRef, () => ({
-    getHtml: () => {
-      let html = "";
-      editor.read(() => {
-        html = $generateHtmlFromNodes(editor, null);
-      });
-      return html;
-    },
-    getJson: () => {
-      return editor.getEditorState().toJSON();
-    },
-    setHtml: (html: string) => {
-      editor.update(() => {
-        const parser = new DOMParser();
-        const dom = parser.parseFromString(html, "text/html");
-        const nodes = $generateNodesFromDOM(editor, dom);
-        const root = $getRoot();
-        root.clear();
-        root.append(...nodes);
-      });
-    },
-    setJson: (json: SerializedEditorState) => {
-      const editorState = editor.parseEditorState(json);
-      editor.setEditorState(editorState);
-    },
-    focus: () => {
-      editor.focus();
-    },
-    clear: () => {
-      editor.update(() => {
-        const root = $getRoot();
-        root.clear();
-      });
-    },
-    getLexicalEditor: () => editor,
-  }));
-
-  return null;
 }
 
 /**
@@ -270,15 +259,15 @@ export const TranceEditor = forwardRef<TranceEditorRef, TranceEditorProps>(
         ? JSON.stringify(initialJson)
         : initialHtml
           ? (editor: LexicalEditor) => {
-              editor.update(() => {
-                const parser = new DOMParser();
-                const dom = parser.parseFromString(initialHtml, "text/html");
-                const nodes = $generateNodesFromDOM(editor, dom);
-                const root = $getRoot();
-                root.select();
-                $insertNodes(nodes);
-              });
-            }
+            editor.update(() => {
+              const parser = new DOMParser();
+              const dom = parser.parseFromString(initialHtml, "text/html");
+              const nodes = $generateNodesFromDOM(editor, dom);
+              const root = $getRoot();
+              root.select();
+              $insertNodes(nodes);
+            });
+          }
           : undefined,
     };
 

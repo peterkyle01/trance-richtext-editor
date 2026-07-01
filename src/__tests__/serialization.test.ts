@@ -1,10 +1,12 @@
 import { describe, it, expect } from "vitest";
-import { createEditor } from "lexical";
+import { $getRoot, createEditor } from "lexical";
 import {
   convertHtmlToJson,
   convertJsonToHtml,
   serializeToHtml,
   deserializeFromHtml,
+  serializeToJson,
+  deserializeFromJson,
 } from "../serialization";
 import { TRANCE_NODES } from "../editor/nodes";
 import { tranceLexicalTheme } from "../styles/lexical-theme";
@@ -38,6 +40,32 @@ describe("Serialization Utilities", () => {
       expect(pNode.children[1].text).toBe("bold");
       expect(pNode.children[1].format).toBe(1); // 1 = Bold format in Lexical
     });
+
+    it("should handle empty HTML string", () => {
+      const json = convertHtmlToJson("");
+      expect(json).toBeDefined();
+      expect(json.root.children).toHaveLength(0);
+    });
+
+    it("should convert a heading element", () => {
+      const html = "<h1>Title</h1>";
+      const json = convertHtmlToJson(html);
+      const node = json.root.children[0] as any;
+
+      expect(node.type).toBe("heading");
+      expect(node.tag).toBe("h1");
+      expect(node.children[0].text).toBe("Title");
+    });
+
+    it("should convert an unordered list", () => {
+      const html = "<ul><li>Item 1</li><li>Item 2</li></ul>";
+      const json = convertHtmlToJson(html);
+      const listNode = json.root.children[0] as any;
+
+      expect(listNode.type).toBe("list");
+      expect(listNode.listType).toBe("bullet");
+      expect(listNode.children).toHaveLength(2);
+    });
   });
 
   describe("Headless JSON to HTML", () => {
@@ -51,6 +79,13 @@ describe("Serialization Utilities", () => {
       expect(html).toContain("bold");
       expect(html).toContain("trance-bold");
       expect(html).toContain(" world");
+    });
+
+    it("should handle empty JSON", () => {
+      const json = convertHtmlToJson("");
+      const html = convertJsonToHtml(json);
+      // Empty content should produce empty or minimal output
+      expect(html).toBeDefined();
     });
   });
 
@@ -67,9 +102,11 @@ describe("Serialization Utilities", () => {
       expect(htmlOutput).toContain("Test content");
     });
 
-    it("should round-trip a background image without creating extra paragraphs", () => {
+    it("should round-trip a background image without including the editor placeholder in output", () => {
+      // Note: the placeholder div is an editor-only UI element and should NOT
+      // appear in serialized HTML output. The figure class alone preserves the mode.
       const html =
-        '<figure class="trance-image-background"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGVpZ2h0PSIyMDAiIHZpZXdCb3g9IjAgMCA0MDAgMjAwIj48cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzYzNjZmMSIvPjwvc3ZnPg==" alt="bg"></figure><div class="trance-image-background-placeholder">Background Image</div><p>Hello</p>';
+        '<figure class="trance-image-background" data-mode="background"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgNDAwIDIwMCI+PHJlY3Qgd2lkdGg9IjQwMCIgaGVpZ2h0PSIyMDAiIGZpbGw9IiM2MzY2ZjEiLz48L3N2Zz4=" alt="bg"></figure><p>Hello</p>';
 
       editor.update(
         () => {
@@ -85,9 +122,25 @@ describe("Serialization Utilities", () => {
       expect(imageNode).toBeDefined();
       expect(imageNode.mode).toBe("background");
 
+      // Re-serialize to HTML - should NOT contain the placeholder div
       const htmlOutput = serializeToHtml(editor);
       expect(htmlOutput).toContain("trance-image-background");
       expect(htmlOutput).toContain("Hello");
+      expect(htmlOutput).not.toContain("trance-image-background-placeholder");
+      expect(htmlOutput).not.toContain(">Background Image<");
+    });
+
+    it("should serialize cleared editor state", () => {
+      editor.update(
+        () => {
+          $getRoot().clear();
+        },
+        { discrete: true },
+      );
+
+      const json = serializeToJson(editor);
+      expect(json).toBeDefined();
+      expect(json.root.children).toBeDefined();
     });
   });
 });

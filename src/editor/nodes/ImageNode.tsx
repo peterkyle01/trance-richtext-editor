@@ -201,13 +201,7 @@ export class ImageNode extends DecoratorNode<ReactNode> {
 
     if (this.__mode === "background") {
       figure.classList.add("trance-image-background");
-      const placeholder = document.createElement("div");
-      placeholder.className = "trance-image-background-placeholder";
-      placeholder.textContent = "Background Image";
-      const fragment = document.createDocumentFragment();
-      fragment.appendChild(figure);
-      fragment.appendChild(placeholder);
-      return { element: fragment };
+      return { element: figure };
     }
 
     return { element: figure };

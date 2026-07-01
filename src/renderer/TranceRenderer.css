@@ -250,12 +250,10 @@
 .trance-renderer hr {
     border: none;
     height: 2px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        var(--trance-border-strong),
-        transparent
-    );
+    background: linear-gradient(90deg,
+            transparent,
+            var(--trance-border-strong),
+            transparent);
     margin: 2em 0;
 }
 
@@ -323,20 +321,7 @@
     display: none;
 }
 
-.trance-renderer .trance-image-background-placeholder {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    background: var(--trance-toolbar-bg);
-    border: 1px dashed var(--trance-border);
-    border-radius: var(--trance-radius);
-    font-size: var(--trance-font-size-sm);
-    color: var(--trance-text-secondary);
-    user-select: none;
-    position: relative;
-    z-index: 1;
-}
+
 
 /* ---- Responsive table wrapper ---- */
 @media (max-width: 640px) {
