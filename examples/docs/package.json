@@ -5,13 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "trance-richtext-editor": "file:../.."
+    "trance-richtext-editor": "^0.2.1"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",
