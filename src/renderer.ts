@@ -2,4 +2,4 @@
 // Lightweight, no Lexical runtime dependency
 
 export { TranceRenderer } from './renderer/TranceRenderer';
-export type { TranceRendererProps } from './renderer/TranceRenderer';
+export type { TranceRendererProps, PageSize } from './renderer/TranceRenderer';

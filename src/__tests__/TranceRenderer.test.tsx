@@ -1,7 +1,7 @@
 import React from 'react';
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { TranceRenderer } from '../renderer/TranceRenderer';
+import { TranceRenderer, PageSize } from '../renderer/TranceRenderer';
 
 describe('TranceRenderer Component', () => {
   it('should render HTML content correctly', () => {
@@ -93,5 +93,46 @@ describe('TranceRenderer Component', () => {
 
     const p = container.querySelector('p');
     expect(p?.getAttribute('onclick')).toBeNull();
+  });
+
+  describe('Page Size', () => {
+    const html = '<p>Page size test</p>';
+
+    it('should not apply page class when pageSize is omitted', () => {
+      const { container } = render(<TranceRenderer html={html} />);
+      const renderer = container.firstChild as HTMLElement;
+
+      expect(renderer.className).not.toContain('trance-renderer-page');
+      expect(renderer.className).toBe('trance-renderer');
+    });
+
+    it('should add A4 class when pageSize is A4', () => {
+      const { container } = render(<TranceRenderer html={html} pageSize="A4" />);
+      const renderer = container.firstChild as HTMLElement;
+
+      expect(renderer).toHaveClass('trance-renderer-page-a4');
+      expect(renderer).toHaveClass('trance-renderer');
+    });
+
+    it('should apply correct class for each page size', () => {
+      const sizes: PageSize[] = ['A3', 'A4', 'A5', 'Letter', 'Legal', 'Tabloid'];
+
+      for (const size of sizes) {
+        const { container } = render(<TranceRenderer html={html} pageSize={size} />);
+        const renderer = container.firstChild as HTMLElement;
+        expect(renderer).toHaveClass(`trance-renderer-page-${size.toLowerCase()}`);
+      }
+    });
+
+    it('should preserve custom className when pageSize is set', () => {
+      const { container } = render(
+        <TranceRenderer html={html} pageSize="Letter" className="my-custom" />
+      );
+      const renderer = container.firstChild as HTMLElement;
+
+      expect(renderer).toHaveClass('my-custom');
+      expect(renderer).toHaveClass('trance-renderer');
+      expect(renderer).toHaveClass('trance-renderer-page-letter');
+    });
   });
 });

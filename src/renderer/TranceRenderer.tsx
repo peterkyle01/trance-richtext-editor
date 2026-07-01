@@ -2,6 +2,24 @@ import React, { useMemo } from "react";
 import DOMPurify from "dompurify";
 import "./TranceRenderer.css";
 
+/** Standard page sizes for the renderer */
+export type PageSize =
+  | "A3"
+  | "A4"
+  | "A5"
+  | "Letter"
+  | "Legal"
+  | "Tabloid";
+
+const PAGE_SIZE_WIDTHS: Record<PageSize, string> = {
+  A3: "297mm",
+  A4: "210mm",
+  A5: "148mm",
+  Letter: "215.9mm",
+  Legal: "215.9mm",
+  Tabloid: "279.4mm",
+};
+
 export interface TranceRendererProps {
   /** HTML string output from TranceEditor */
   html: string;
@@ -9,6 +27,12 @@ export interface TranceRendererProps {
   className?: string;
   /** Theme mode */
   theme?: "light" | "dark" | "auto";
+  /**
+   * Constrain content to a standard page size.
+   * The renderer centers itself and adds a subtle paper-like background.
+   * When omitted, the renderer fills its parent width.
+   */
+  pageSize?: PageSize;
 }
 
 /**
@@ -32,10 +56,10 @@ export function TranceRenderer({
   html,
   className = "",
   theme = "light",
+  pageSize,
 }: TranceRendererProps) {
   const sanitizedHtml = useMemo(() => {
     if (typeof window === "undefined") {
-      // SSR: return as-is (consider using isomorphic-dompurify in production)
       return html;
     }
     return DOMPurify.sanitize(html, {
@@ -45,9 +69,13 @@ export function TranceRenderer({
     });
   }, [html]);
 
+  const pageSizeClass = pageSize
+    ? ` trance-renderer-page-${pageSize.toLowerCase()}`
+    : "";
+
   return (
     <div
-      className={`trance-renderer ${className}`.trim()}
+      className={`trance-renderer${pageSizeClass} ${className}`.trim()}
       data-trance-theme={theme}
     >
       <div

@@ -13,6 +13,7 @@ Inspired by [Payload CMS's rich text editor](https://payloadcms.com/docs/fields/
 - 🎯 **Feature flags** — enable/disable any formatting feature via props
 - 🎭 **Theming** — light, dark, and auto (system preference) themes via CSS custom properties
 - 📐 **TranceRenderer** — separate, lightweight component to beautifully render editor HTML
+- 📄 **Page sizes** — constrain renderer output to A4, Letter, and other standard formats
 - 🔒 **XSS-safe** — renderer sanitizes HTML via DOMPurify
 - 📦 **Tree-shakeable** — ESM + CJS dual output, renderer has no Lexical dependency
 - ⌨️ **Markdown shortcuts** — type `# `, `**text**`, `- `, etc. for quick formatting
@@ -124,6 +125,15 @@ function MyEditor() {
 | `html` | `string` | — | HTML string to render |
 | `className` | `string` | — | Additional CSS class |
 | `theme` | `'light' \| 'dark' \| 'auto'` | `'light'` | Theme mode |
+| `pageSize` | `PageSize` | — | Constrain content to a standard page size |
+
+**`PageSize` options:** `'A3'`, `'A4'`, `'A5'`, `'Letter'`, `'Legal'`, `'Tabloid'`
+
+When `pageSize` is set, the renderer centers itself with a paper-like background and shadow:
+
+```tsx
+<TranceRenderer html={content} pageSize="A4" />
+```
 
 ## Theming
 
