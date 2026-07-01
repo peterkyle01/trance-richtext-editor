@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0] - 2025-07-01
+
+### Added
+
+- `pageSize` prop on `<TranceRenderer />` — constrain content to A4, A3, A5, Letter, Legal, Tabloid
+- GitHub Actions CI workflow (test + build + typecheck on push/PR)
+
+### Changed
+
+- **Dark theme redesigned** — switched from navy/slate palette to black + shadcn-style neutral grays (`#0a0a0a` background, `#fafafa` text, `#a3a3a3` secondary). Accent stays indigo.
+- Auto theme updated to match new dark palette
+- **EditorRefPlugin inlined** — removed unnecessary indirection, `EditorInner` now holds the imperative handle directly
+- Version bumped to 0.2.0
+
+### Fixed
+
+- Background image placeholder (`Background Image` text) no longer leaks into serialized HTML / preview — `exportDOM()` no longer includes the editor-only UI element
+- Removed unused `.trance-image-background-placeholder` CSS from renderer
+- Consolidated duplicate `.trance-editor-content` CSS rule into a single declaration block
+
 ## [0.1.0] - 2025-06-28
 
 ### Added
