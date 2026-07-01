@@ -132,13 +132,13 @@ function EditorInner({
 
   return (
     <ImageBackgroundContext.Provider value={backgroundLayerRef}>
+      <div
+        ref={backgroundLayerRef}
+        className="trance-editor-background-layer"
+        aria-hidden="true"
+      />
       <Toolbar features={resolvedFeatures} onImageUpload={onImageUpload} />
       <div className="trance-editor-content">
-        <div
-          ref={backgroundLayerRef}
-          className="trance-editor-background-layer"
-          aria-hidden="true"
-        />
         <RichTextPlugin
           contentEditable={
             <ContentEditable

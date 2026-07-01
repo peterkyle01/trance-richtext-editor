@@ -7,6 +7,9 @@
 .trance-renderer {
     position: relative;
     isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     font-family: var(--trance-font-sans);
     font-size: var(--trance-font-size-base);
     line-height: var(--trance-line-height);
@@ -20,7 +23,10 @@
 .trance-renderer-content {
     position: relative;
     z-index: 1;
+    flex: 1 1 auto;
     min-height: 200px;
+    padding: var(--trance-spacing-lg) var(--trance-spacing-xl);
+    box-sizing: border-box;
 }
 
 /* ---- Headings ---- */
@@ -304,12 +310,13 @@
 }
 
 .trance-renderer figure.trance-image-background img {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
     object-fit: cover;
-    display: block;
+    display: block !important;
     border-radius: 0;
-    margin: 0;
+    margin: 0 !important;
+    max-width: none !important;
 }
 
 .trance-renderer figure.trance-image-background figcaption {
