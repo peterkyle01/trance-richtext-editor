@@ -37,7 +37,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "dev": "tsup --watch & npm --prefix examples/basic run dev",
+    "dev": "tsup --watch & npm --prefix examples/docs run dev",
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",

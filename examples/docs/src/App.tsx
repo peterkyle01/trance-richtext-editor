@@ -25,9 +25,18 @@ function CopyButton({ text }: { text: string }) {
 }
 
 function CodeBlock({ code }: { code: string }) {
+  const highlighted = code
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/\/\/(.*)/g, '<span class="code-comment">$&</span>')
+    .replace(/('(?:[^'\\]|\\.)*')/g, '<span class="code-string">$1</span>')
+    .replace(/\b(import|from|function|return|const|let|var|export|default|async|await|if|else|for|of|in|typeof|new|throw|try|catch)\b/g,
+      '<span class="code-keyword">$1</span>');
+
   return (
     <div className="code-block">
-      <pre><code>{code}</code></pre>
+      <pre dangerouslySetInnerHTML={{ __html: highlighted }} />
     </div>
   );
 }
@@ -78,9 +87,11 @@ const PROPS = [
 
 export default function App() {
   const [liveHtml, setLiveHtml] = useState('');
+  const [rendererHtml, setRendererHtml] = useState('');
   const [outputHtml, setOutputHtml] = useState('');
   const [pageSize, setPageSize] = useState<PageSize | undefined>();
   const [rendererTheme, setRendererTheme] = useState<'light' | 'dark'>('dark');
+  const [menuOpen, setMenuOpen] = useState(false);
   const editorRef = useRef<TranceEditorRef>(null);
 
   const getHtml = useCallback(() => setOutputHtml(editorRef.current?.getHtml() || ''), []);
@@ -94,15 +105,20 @@ export default function App() {
     <div>
       {/* Nav */}
       <nav className="nav">
-        <a href="#" className="nav-brand"><span className="nav-brand-icon">✦</span>trance</a>
-        <div className="nav-links">
-          <a href="#quickstart" className="nav-link">Quick Start</a>
-          <a href="#props" className="nav-link">Props</a>
-          <a href="#renderer" className="nav-link">Renderer</a>
-          <a href="#theming" className="nav-link">Theming</a>
-          <a href="#api" className="nav-link">API</a>
-          <a href="https://github.com/peterkyle01/trance-richtext-editor" className="nav-github" target="_blank" rel="noopener"><GitHubIcon /> GitHub</a>
+        <div className="nav-spacer" />
+        <div className={`nav-links${menuOpen ? ' open' : ''}`}>
+          <a href="#quickstart" className="nav-link" onClick={() => setMenuOpen(false)}>Quick Start</a>
+          <a href="#props" className="nav-link" onClick={() => setMenuOpen(false)}>Props</a>
+          <a href="#renderer" className="nav-link" onClick={() => setMenuOpen(false)}>Renderer</a>
+          <a href="#theming" className="nav-link" onClick={() => setMenuOpen(false)}>Theming</a>
+          <a href="#api" className="nav-link" onClick={() => setMenuOpen(false)}>API</a>
+          <a href="https://github.com/peterkyle01/trance-richtext-editor" className="nav-github" target="_blank" rel="noopener" onClick={() => setMenuOpen(false)}><GitHubIcon /> GitHub</a>
         </div>
+        <button className="nav-hamburger" onClick={() => setMenuOpen(!menuOpen)} aria-label="Toggle menu">
+          <span className={`nav-hamburger-line${menuOpen ? ' open' : ''}`} />
+          <span className={`nav-hamburger-line${menuOpen ? ' open' : ''}`} />
+          <span className={`nav-hamburger-line${menuOpen ? ' open' : ''}`} />
+        </button>
       </nav>
 
       {/* Hero */}
@@ -133,11 +149,12 @@ export default function App() {
               <span className="demo-panel-header-dot" /><span className="demo-panel-header-dot" /><span className="demo-panel-header-dot" />
             </div>
           </div>
-          <div className="demo-split">
+          <div className="demo-stack">
             <div className="demo-editor-pane">
               <div className="demo-pane-label">Editor</div>
               <TranceEditor theme="dark" placeholder="Start writing..." onChange={({ html }) => setLiveHtml(html)} autoFocus />
             </div>
+            <div className="demo-stack-divider" />
             <div className="demo-preview-pane">
               <div className="demo-pane-label">Rendered Output</div>
               {liveHtml ? <TranceRenderer html={liveHtml} theme="dark" />
@@ -215,11 +232,11 @@ function BlogPost({ content }: { content: string }) {
         <div className="demo-panel">
           <div className="demo-panel-body" style={{ background: 'var(--color-bg)' }}>
             <TranceEditor theme="dark" placeholder="Type to see page sizes in action..."
-              onChange={({ html }) => setLiveHtml(html)} autoFocus />
+              onChange={({ html }) => setRendererHtml(html)} autoFocus />
           </div>
-          {liveHtml && (
+          {rendererHtml && (
             <div style={{ borderTop: '1px solid var(--color-border)', padding: 24 }}>
-              <TranceRenderer html={liveHtml} theme="dark" pageSize={pageSize} />
+              <TranceRenderer html={rendererHtml} theme="dark" pageSize={pageSize} />
             </div>
           )}
         </div>
@@ -238,7 +255,7 @@ function BlogPost({ content }: { content: string }) {
           <div className="demo-panel-body" style={{ background: 'var(--color-bg-card)' }}>
             <TranceEditor theme={rendererTheme}
               placeholder={'Currently in ' + rendererTheme + ' mode...'}
-              onChange={({ html }) => setLiveHtml(html)} />
+              onChange={({ html }) => setRendererHtml(html)} />
           </div>
         </div>
         <br />
