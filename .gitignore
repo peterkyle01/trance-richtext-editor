@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-/examples/basic/node_modules/
+/examples/docs/node_modules/
 
 # Production builds
 dist/
