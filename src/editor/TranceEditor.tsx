@@ -70,6 +70,11 @@ export interface TranceEditorProps {
   maxLength?: number;
   /** Debounce ms for onChange */
   debounceMs?: number;
+  /**
+   * Constrain editor content to a standard page size.
+   * Matches the same pageSize prop on TranceRenderer for WYSIWYG fidelity.
+   */
+  pageSize?: "A3" | "A4" | "A5" | "Letter" | "Legal" | "Tabloid";
 }
 
 export interface TranceEditorRef {
@@ -244,8 +249,13 @@ export const TranceEditor = forwardRef<TranceEditorRef, TranceEditorProps>(
       theme = "light",
       className = "",
       editable = true,
+      pageSize,
       ...rest
     } = props;
+
+    const pageSizeClass = pageSize
+      ? ` trance-editor-page-${pageSize.toLowerCase()}`
+      : "";
 
     const initialConfig = {
       namespace: "TranceEditor",
@@ -273,7 +283,7 @@ export const TranceEditor = forwardRef<TranceEditorRef, TranceEditorProps>(
 
     return (
       <div
-        className={`trance-editor-wrapper ${className}`.trim()}
+        className={`trance-editor-wrapper${pageSizeClass} ${className}`.trim()}
         data-trance-theme={theme}
       >
         <LexicalComposer initialConfig={initialConfig}>

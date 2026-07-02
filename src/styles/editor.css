@@ -534,3 +534,38 @@
 .trance-indent {
     --lexical-indent-base-value: 40px;
 }
+
+/* ---- Page Size Modes ---- */
+.trance-editor-page-a3,
+.trance-editor-page-a4,
+.trance-editor-page-a5,
+.trance-editor-page-letter,
+.trance-editor-page-legal,
+.trance-editor-page-tabloid {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.trance-editor-page-a3 {
+    max-width: 297mm;
+}
+
+.trance-editor-page-a4 {
+    max-width: 210mm;
+}
+
+.trance-editor-page-a5 {
+    max-width: 148mm;
+}
+
+.trance-editor-page-letter {
+    max-width: 215.9mm;
+}
+
+.trance-editor-page-legal {
+    max-width: 215.9mm;
+}
+
+.trance-editor-page-tabloid {
+    max-width: 279.4mm;
+}
