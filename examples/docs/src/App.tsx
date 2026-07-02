@@ -338,9 +338,9 @@ const json = convertHtmlToJson('<p>Hello <strong>world</strong></p>');`} />
       {/* Footer */}
       <footer className="footer">
         <p>
-          Built with <a href="https://github.com/peterkyle01/trance-richtext-editor" target="_blank" rel="noopener">trance-richtext-editor</a>
+          Product of <a href="https://peterkyle01.me" target="_blank" rel="noopener">peterkyle01</a>
           &nbsp;·&nbsp;Powered by <a href="https://lexical.dev" target="_blank" rel="noopener">Lexical</a>
-          &nbsp;·&nbsp;MIT License
+          &nbsp;·&nbsp;<a href="https://github.com/peterkyle01/trance-richtext-editor/blob/main/LICENSE" target="_blank" rel="noopener">MIT License</a>
         </p>
       </footer>
     </div>

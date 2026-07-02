@@ -30,6 +30,8 @@
 /* ---- Content Editable ---- */
 .trance-editor-content {
     position: relative;
+    display: flex;
+    flex-direction: column;
     flex: 1 1 auto;
     min-height: 200px;
     padding: var(--trance-spacing-lg) var(--trance-spacing-xl);
@@ -67,6 +69,8 @@
 .trance-content-editable {
     position: relative;
     z-index: 1;
+    flex: 1;
+    min-height: 200px;
 }
 
 .trance-editor-content [data-lexical-editor] {
