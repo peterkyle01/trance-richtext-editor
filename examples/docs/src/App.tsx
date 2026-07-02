@@ -156,7 +156,7 @@ export default function App() {
           <div className="demo-stack">
             <div className="demo-editor-pane">
               <div className="demo-pane-label">Editor</div>
-              <TranceEditor theme="dark" placeholder="Start writing..." onChange={({ html }) => setLiveHtml(html)} autoFocus />
+              <TranceEditor theme="dark" placeholder="Start writing..." onChange={({ html }) => setLiveHtml(html)} />
             </div>
             <div className="demo-stack-divider" />
             <div className="demo-preview-pane">
