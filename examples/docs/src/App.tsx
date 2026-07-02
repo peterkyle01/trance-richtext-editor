@@ -236,7 +236,7 @@ function BlogPost({ content }: { content: string }) {
         <div className="demo-panel">
           <div className="demo-panel-body" style={{ background: 'var(--color-bg)' }}>
             <TranceEditor theme="dark" placeholder="Type to see page sizes in action..." pageSize={pageSize}
-              onChange={({ html }) => setRendererHtml(html)} autoFocus />
+              onChange={({ html }) => setRendererHtml(html)} />
           </div>
           {rendererHtml && (
             <div style={{ borderTop: '1px solid var(--color-border)', padding: 24 }}>
