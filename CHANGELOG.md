@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.3] - 2026-07-02
+
+### Fixed
+
+- **Editor page-size CSS compensation** — removed duplicate CSS class definitions that were overriding the `+2px` border compensation. The `calc(210mm + 2px)` values now properly account for the editor's 1px border, so content width matches the renderer exactly when both use the same `pageSize`.
+
+## [0.2.2] - 2026-07-01
+
+### Added
+
+- **`pageSize` prop on `<TranceEditor />`** — constrain editor content to A4, A3, A5, Letter, Legal, or Tabloid. Matches the existing `pageSize` on `<TranceRenderer />` for pixel-perfect WYSIWYG parity between editor and rendered output.
+
+### Changed
+
+- Docs site deployed to Vercel at https://trance-editor.peterkyle01.me
+- CI now runs on Node 22
+
 ## [0.2.1] - 2025-07-01
 
 ### Changed
