@@ -11,7 +11,7 @@
   "dependencies": {
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "trance-richtext-editor": "^0.2.4"
+    "trance-richtext-editor": "^0.2.5"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",
