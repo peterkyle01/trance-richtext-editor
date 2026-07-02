@@ -76,8 +76,12 @@ const PROPS = [
   ['initialJson', 'SerializedEditorState', '—', 'Initialize from Lexical JSON'],
   ['placeholder', 'string', '"Start writing..."', 'Placeholder text'],
   ['onChange', 'function', '—', 'Content change callback (debounced)'],
+  ['onBlur', 'function', '—', 'Blur callback'],
+  ['onFocus', 'function', '—', 'Focus callback'],
   ['features', 'ToolbarFeatures', 'all enabled', 'Feature flags object'],
+  ['onImageUpload', 'function', '—', 'Custom image upload handler'],
   ['theme', "'light' | 'dark' | 'auto'", "'light'", 'Theme mode'],
+  ['pageSize', "'A3' | 'A4' | 'A5' | 'Letter' | 'Legal' | 'Tabloid'", '—', 'Constrain editor to page size (matches renderer)'],
   ['className', 'string', '—', 'Additional CSS class'],
   ['editable', 'boolean', 'true', 'Read-only mode'],
   ['autoFocus', 'boolean', 'false', 'Auto-focus on mount'],
@@ -123,7 +127,7 @@ export default function App() {
 
       {/* Hero */}
       <section className="hero">
-        <div className="hero-badge">v0.2.0 · MIT</div>
+        <div className="hero-badge">v0.2.2 · MIT</div>
         <h1 className="hero-title"><span className="hero-title-gradient">trance</span><br />Rich Text Editor</h1>
         <p className="hero-subtitle">
           A plug-and-play rich text editor for React, powered by Lexical.
@@ -231,7 +235,7 @@ function BlogPost({ content }: { content: string }) {
         </div>
         <div className="demo-panel">
           <div className="demo-panel-body" style={{ background: 'var(--color-bg)' }}>
-            <TranceEditor theme="dark" placeholder="Type to see page sizes in action..." pageSize={pageSize}
+            <TranceEditor theme="dark" placeholder="Type to see page sizes in action..."
               onChange={({ html }) => setRendererHtml(html)} autoFocus />
           </div>
           {rendererHtml && (

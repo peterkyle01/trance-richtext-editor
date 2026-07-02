@@ -73,6 +73,7 @@ function BlogPost({ content }: { content: string }) {
 | `features` | `ToolbarFeatures` | all enabled | Feature flags object |
 | `onImageUpload` | `(file: File) => Promise<{ url, alt? }>` | base64 fallback | Custom image upload handler |
 | `theme` | `'light' \| 'dark' \| 'auto'` | `'light'` | Theme mode |
+| `pageSize` | `PageSize` | — | Constrain editor to a page size (matches TranceRenderer) |
 | `className` | `string` | — | Additional CSS class |
 | `editable` | `boolean` | `true` | Read-only mode |
 | `autoFocus` | `boolean` | `false` | Auto-focus on mount |
@@ -129,7 +130,16 @@ function MyEditor() {
 
 **`PageSize` options:** `'A3'`, `'A4'`, `'A5'`, `'Letter'`, `'Legal'`, `'Tabloid'`
 
-When `pageSize` is set, the renderer centers itself with a paper-like background and shadow:
+When `pageSize` is set, both the editor and renderer center themselves with a paper-like background and shadow.
+The same page size on both components ensures WYSIWYG fidelity — content appears identical in both:
+
+```tsx
+<TranceEditor pageSize="A4" onChange={({ html }) => setHtml(html)} />
+<TranceRenderer html={html} pageSize="A4" />
+```
+
+> **Note:** The editor has a 1px border, so the content area width accounts for it automatically.
+> If you override `box-sizing` globally, you may need to adjust accordingly.
 
 ```tsx
 <TranceRenderer html={content} pageSize="A4" />
