@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.4] - 2026-07-02
+
+### Changed
+
+- **HTML output is now clean and semantic** — `getHtml()`, `onChange`, `serializeToHtml()`, and `convertJsonToHtml()` no longer output editor-internal `trance-*` CSS classes or `white-space: pre-wrap` inline styles. The HTML output now contains only clean, portable markup that renders identically in `<TranceRenderer />` and any other HTML renderer.
+  - Lexical theme classes (`trance-paragraph`, `trance-bold`, `trance-superscript`, etc.) are stripped
+  - `white-space: pre-wrap` inline styles are removed
+  - Semantic classes like `trance-image-background` (used by the renderer for full-bleed images) are preserved
+  - Existing renderer CSS targets semantic elements directly, so no renderer changes needed
+
 ## [0.2.3] - 2026-07-02
 
 ### Fixed
