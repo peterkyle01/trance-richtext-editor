@@ -8,6 +8,7 @@ import {
 } from 'lexical';
 import { TRANCE_NODES } from '../editor/nodes';
 import { tranceLexicalTheme } from '../styles/lexical-theme';
+import { stripTranceInternals } from '../utils/stripTranceInternals';
 
 /**
  * Serialize the current editor state to an HTML string.
@@ -17,7 +18,7 @@ import { tranceLexicalTheme } from '../styles/lexical-theme';
 export function serializeToHtml(editor: LexicalEditor): string {
   let html = '';
   editor.read(() => {
-    html = $generateHtmlFromNodes(editor, null);
+    html = stripTranceInternals($generateHtmlFromNodes(editor, null));
   });
   return html;
 }
@@ -85,7 +86,7 @@ export function convertJsonToHtml(
   let html = '';
 
   editorState.read(() => {
-    html = $generateHtmlFromNodes(editor, null);
+    html = stripTranceInternals($generateHtmlFromNodes(editor, null));
   });
 
   return html;

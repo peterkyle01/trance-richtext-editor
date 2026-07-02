@@ -35,6 +35,7 @@ import { ImagesPlugin } from "./plugins/ImagesPlugin";
 import { HorizontalRulePlugin } from "./plugins/HorizontalRulePlugin";
 import { MaxLengthPlugin } from "./plugins/MaxLengthPlugin";
 import { ImageBackgroundContext } from "./context/ImageBackgroundContext";
+import { stripTranceInternals } from "../utils/stripTranceInternals";
 
 // Import styles
 import "../styles/variables.css";
@@ -142,7 +143,7 @@ function EditorInner({
       getHtml: () => {
         let html = "";
         editor.read(() => {
-          html = $generateHtmlFromNodes(editor, null);
+          html = stripTranceInternals($generateHtmlFromNodes(editor, null));
         });
         return html;
       },

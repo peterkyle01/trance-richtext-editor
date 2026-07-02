@@ -77,8 +77,9 @@ describe("Serialization Utilities", () => {
 
       expect(html).toContain("Hello ");
       expect(html).toContain("bold");
-      expect(html).toContain("trance-bold");
+      expect(html).toContain("<strong");
       expect(html).toContain(" world");
+      expect(html).not.toContain("trance-");
     });
 
     it("should handle empty JSON", () => {
@@ -128,6 +129,8 @@ describe("Serialization Utilities", () => {
       expect(htmlOutput).toContain("Hello");
       expect(htmlOutput).not.toContain("trance-image-background-placeholder");
       expect(htmlOutput).not.toContain(">Background Image<");
+      // Editor theme classes should be stripped
+      expect(htmlOutput).not.toContain("trance-paragraph");
     });
 
     it("should serialize cleared editor state", () => {

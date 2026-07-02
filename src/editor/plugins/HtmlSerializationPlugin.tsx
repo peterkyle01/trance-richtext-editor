@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
 import { $generateHtmlFromNodes } from '@lexical/html';
 import type { EditorState, SerializedEditorState } from 'lexical';
+import { stripTranceInternals } from '../../utils/stripTranceInternals';
 
 interface HtmlSerializationPluginProps {
   onChange?: (data: { html: string; json: SerializedEditorState }) => void;
@@ -29,7 +30,7 @@ export function HtmlSerializationPlugin({
 
       timerRef.current = setTimeout(() => {
         editorState.read(() => {
-          const html = $generateHtmlFromNodes(editor, null);
+          const html = stripTranceInternals($generateHtmlFromNodes(editor, null));
           const json = editorState.toJSON();
           onChange({ html, json });
         });
