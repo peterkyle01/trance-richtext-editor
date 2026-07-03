@@ -63,7 +63,7 @@ const FEATURES = [
   { icon: '🖼️', title: 'Rich Content', desc: 'Images, tables, code blocks, checklists, blockquotes.' },
   { icon: '🎯', title: 'Feature Flags', desc: 'Enable or disable any feature via props.' },
   { icon: '🎭', title: 'Theming', desc: 'Light, dark, and auto via CSS custom properties.' },
-  { icon: '📐', title: 'TranceRenderer', desc: 'Zero Lexical dependency.' },
+  { icon: '📐', title: 'TranceRenderer', desc: 'Lightweight renderer, separate bundle, no Lexical runtime.' },
   { icon: '🔒', title: 'XSS-Safe', desc: 'HTML sanitized via DOMPurify.' },
   { icon: '📦', title: 'Tree-Shakeable', desc: 'ESM + CJS dual output.' },
   { icon: '⌨️', title: 'Markdown Shortcuts', desc: 'Type # , **text**, - for quick formatting.' },
