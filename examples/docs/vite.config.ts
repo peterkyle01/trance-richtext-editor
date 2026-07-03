@@ -13,5 +13,6 @@ export default defineConfig({
   },
   optimizeDeps: {
     exclude: ['trance-richtext-editor'],
+    include: ['mammoth'],
   },
 })
