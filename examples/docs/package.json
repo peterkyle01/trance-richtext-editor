@@ -12,7 +12,7 @@
     "@vercel/analytics": "^2.0.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
-    "trance-richtext-editor": "^0.2.5"
+    "trance-richtext-editor": "^0.3.0"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",

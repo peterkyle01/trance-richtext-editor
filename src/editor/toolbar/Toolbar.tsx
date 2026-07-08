@@ -29,6 +29,7 @@ import { $isCodeNode } from "@lexical/code";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { $findMatchingParent, $getNearestNodeOfType } from "@lexical/utils";
 import { $setBlocksType } from "@lexical/selection";
+import { $patchStyleText } from "@lexical/selection";
 import { $createQuoteNode, $isQuoteNode } from "@lexical/rich-text";
 import { $createCodeNode } from "@lexical/code";
 import { $createParagraphNode } from "lexical";
@@ -64,6 +65,7 @@ import {
 import { INSERT_IMAGE_COMMAND } from "../plugins/ImagesPlugin";
 import { INSERT_HORIZONTAL_RULE_COMMAND } from "../plugins/HorizontalRulePlugin";
 import { importDocument } from "../utils/importDocument";
+import { TextColorPicker } from "./TextColorPicker";
 
 export interface ToolbarFeatures {
   bold?: boolean;
@@ -86,6 +88,7 @@ export interface ToolbarFeatures {
   subscript?: boolean;
   highlight?: boolean;
   import?: boolean;
+  textColor?: boolean;
 }
 
 interface ToolbarProps {
@@ -111,6 +114,7 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
   const [isSubscript, setIsSubscript] = useState(false);
   const [isHighlight, setIsHighlight] = useState(false);
   const [isLink, setIsLink] = useState(false);
+  const [textColor, setTextColor] = useState<string | undefined>(undefined);
 
   // Block type
   const [blockType, setBlockType] = useState("paragraph");
@@ -133,15 +137,27 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
       setIsSubscript(selection.hasFormat("subscript"));
       setIsHighlight(selection.hasFormat("highlight"));
 
+      // Check text color from selection
+      const nodes = selection.getNodes();
+      let styleStr = "";
+      for (const node of nodes) {
+        if ("getStyle" in node && typeof (node as any).getStyle === "function") {
+          const s = (node as any).getStyle();
+          if (s) { styleStr = s; break; }
+        }
+      }
+      const colorMatch = styleStr.match(/color:\s*([^;]+)/);
+      setTextColor(colorMatch ? colorMatch[1].trim() : undefined);
+
       // Check block type
       const anchorNode = selection.anchor.getNode();
       let element =
         anchorNode.getKey() === "root"
           ? anchorNode
           : $findMatchingParent(anchorNode, (e) => {
-              const parent = e.getParent();
-              return parent !== null && $isRootOrShadowRoot(parent);
-            });
+            const parent = e.getParent();
+            return parent !== null && $isRootOrShadowRoot(parent);
+          });
 
       if (element === null) {
         element = anchorNode.getTopLevelElementOrThrow();
@@ -301,6 +317,20 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
     }
   }, [editor, isLink, normalizeUrl]);
 
+  const handleTextColorChange = useCallback((color: string) => {
+    editor.update(() => {
+      const selection = $getSelection();
+      if ($isRangeSelection(selection)) {
+        if (color) {
+          $patchStyleText(selection, { color });
+        } else {
+          $patchStyleText(selection, { color: null });
+        }
+      }
+    });
+    setTextColor(color || undefined);
+  }, [editor]);
+
   const handleTableInsert = useCallback(
     (rows: number, columns: number) => {
       editor.dispatchCommand(INSERT_TABLE_COMMAND, {
@@ -417,6 +447,12 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
           onClick={() =>
             editor.dispatchCommand(FORMAT_TEXT_COMMAND, "highlight")
           }
+        />
+      )}
+      {features.textColor !== false && (
+        <TextColorPicker
+          currentColor={textColor}
+          onColorChange={handleTextColorChange}
         />
       )}
       {features.superscript !== false && (

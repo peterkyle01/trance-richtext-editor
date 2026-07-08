@@ -8,10 +8,10 @@
     display: flex;
     flex-direction: column;
     border: 1px solid var(--trance-border);
-    border-radius: var(--trance-radius-md);
+    border-radius: 4px;
     background: var(--trance-editor-bg);
     box-shadow: var(--trance-shadow-sm);
-    overflow: visible;
+    overflow: hidden;
     font-family: var(--trance-font-sans);
     transition:
         border-color var(--trance-transition),
@@ -22,10 +22,7 @@
     flex-shrink: 0;
 }
 
-.trance-editor-wrapper:focus-within {
-    border-color: var(--trance-border-focus);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
-}
+
 
 /* ---- Content Editable ---- */
 .trance-editor-content {

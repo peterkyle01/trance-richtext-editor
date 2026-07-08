@@ -132,6 +132,7 @@ function EditorInner({
     subscript: true,
     highlight: true,
     import: true,
+    textColor: true,
     ...features,
   };
 

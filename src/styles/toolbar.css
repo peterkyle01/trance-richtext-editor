@@ -146,6 +146,7 @@
         opacity: 0;
         transform: translateY(-4px) scale(0.97);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -259,4 +260,73 @@
 
 .trance-toolbar-btn:hover .trance-tooltip {
     opacity: 1;
+}
+
+/* ---- Color Picker ---- */
+.trance-color-picker-wrapper {
+    position: relative;
+}
+
+.trance-color-picker-dropdown {
+    position: fixed;
+    z-index: 100;
+    min-width: 180px;
+    padding: var(--trance-spacing-sm);
+    background: var(--trance-toolbar-bg);
+    border: 1px solid var(--trance-border);
+    border-radius: var(--trance-radius-md);
+    box-shadow: var(--trance-shadow-lg);
+    animation: trance-dropdown-in 150ms ease;
+}
+
+.trance-color-picker-label {
+    font-size: var(--trance-font-size-sm);
+    font-weight: 500;
+    color: var(--trance-text);
+    margin-bottom: var(--trance-spacing-sm);
+    text-align: center;
+}
+
+.trance-color-picker-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4px;
+    margin-bottom: var(--trance-spacing-sm);
+}
+
+.trance-color-swatch {
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border: 2px solid transparent;
+    border-radius: var(--trance-radius-sm);
+    cursor: pointer;
+    transition: all var(--trance-transition-fast);
+}
+
+.trance-color-swatch:hover {
+    transform: scale(1.15);
+}
+
+.trance-color-swatch.active {
+    border-color: var(--trance-accent);
+}
+
+.trance-color-reset {
+    display: block;
+    width: 100%;
+    padding: var(--trance-spacing-xs) var(--trance-spacing-sm);
+    border: 1px solid var(--trance-border);
+    border-radius: var(--trance-radius);
+    background: transparent;
+    color: var(--trance-text-secondary);
+    font-size: var(--trance-font-size-sm);
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--trance-transition-fast);
+}
+
+.trance-color-reset:hover {
+    background: var(--trance-toolbar-btn-hover);
+    color: var(--trance-text);
 }

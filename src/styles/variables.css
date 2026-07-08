@@ -27,7 +27,7 @@
     /* ---- Borders ---- */
     --trance-border: #e5e7eb;
     --trance-border-strong: #d1d5db;
-    --trance-border-focus: #6366f1;
+    --trance-border-focus: #ffffff;
 
     /* ---- Toolbar ---- */
     --trance-toolbar-bg: #ffffff;
@@ -131,7 +131,7 @@
     /* ---- Borders ---- */
     --trance-border: #262626;
     --trance-border-strong: #333333;
-    --trance-border-focus: #818cf8;
+    --trance-border-focus: #000000;
 
     /* ---- Toolbar ---- */
     --trance-toolbar-bg: #141414;
@@ -194,7 +194,7 @@
         --trance-accent-text: #0a0a0a;
         --trance-border: #262626;
         --trance-border-strong: #333333;
-        --trance-border-focus: #818cf8;
+        --trance-border-focus: #000000;
         --trance-toolbar-bg: #141414;
         --trance-toolbar-border: #262626;
         --trance-toolbar-btn-hover: #1a1a1a;
