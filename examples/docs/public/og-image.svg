@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a0a0a"/>
+      <stop offset="100%" stop-color="#1a1a2e"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <text x="600" y="240" text-anchor="middle" font-family="system-ui, sans-serif" font-size="80" font-weight="800" fill="#fafafa">trance</text>
+  <text x="600" y="320" text-anchor="middle" font-family="system-ui, sans-serif" font-size="36" font-weight="600" fill="#818cf8">Rich Text Editor</text>
+  <text x="600" y="390" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#a3a3a3">A plug-and-play rich text editor for React</text>
+  <text x="600" y="430" text-anchor="middle" font-family="system-ui, sans-serif" font-size="22" fill="#a3a3a3">Powered by Lexical</text>
+  <rect x="480" y="480" width="240" height="8" rx="4" fill="#6366f1"/>
+</svg>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://trance-editor.peterkyle01.me/sitemap.xml
