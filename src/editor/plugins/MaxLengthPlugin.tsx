@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useLexicalComposerContext } from '@lexical/react/LexicalComposerContext';
-import { $getRoot, $createParagraphNode, $getSelection, $isRangeSelection, TextNode, RootNode } from 'lexical';
+import { $getRoot, TextNode } from 'lexical';
 
 interface MaxLengthPluginProps {
   maxLength: number;
@@ -13,26 +13,8 @@ export function MaxLengthPlugin({ maxLength }: MaxLengthPluginProps): null {
   const [editor] = useLexicalComposerContext();
 
   useEffect(() => {
-    return editor.registerNodeTransform(RootNode, (rootNode: RootNode) => {
-      const text = rootNode.getTextContent();
-      if (text.length <= maxLength) return;
-
-      // Trim the excess content
-      editor.update(() => {
-        const trimmedText = text.slice(0, maxLength);
-        const root = $getRoot();
-        const allTextContent = root.getTextContent();
-        
-        if (allTextContent.length > maxLength) {
-          // Simple approach: prevent the update by reverting
-          // In practice, we prevent typing beyond the limit
-        }
-      });
-    });
-  }, [editor, maxLength]);
-
-  useEffect(() => {
-    // Register text node transform to prevent exceeding max length
+    // Enforce the limit on text nodes — trims the excess from the tail of
+    // the current text node as the user types.
     return editor.registerNodeTransform(TextNode, (textNode) => {
       const root = $getRoot();
       const totalLength = root.getTextContent().length;

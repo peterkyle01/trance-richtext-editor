@@ -56,7 +56,7 @@ export interface TranceEditorProps {
    * Takes precedence over `initialJson`, `defaultValue`, and `initialHtml`.
    */
   value?: string;
-  /** Initial HTML for uncontrolled mode (React-style alias for `initialHtml`) */
+  /** Initial HTML for uncontrolled mode; takes precedence over `initialHtml` (overridden by `value`) */
   defaultValue?: string;
   /** Placeholder text shown when editor is empty */
   placeholder?: string;

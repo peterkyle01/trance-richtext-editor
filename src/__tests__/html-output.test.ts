@@ -84,8 +84,6 @@ describe('stripTranceInternals', () => {
       root.append(p);
     });
     const clean = stripTranceInternals(raw);
-    console.log('Raw:', raw);
-    console.log('Clean:', clean);
     // Should be simple <p>Hello <strong>world</strong></p> or similar
     expect(clean).not.toContain('class=');
     expect(clean).not.toContain('style=');

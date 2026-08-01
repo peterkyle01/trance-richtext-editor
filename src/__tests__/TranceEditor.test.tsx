@@ -89,9 +89,8 @@ describe('TranceEditor Component', () => {
 
   it('should render as read-only when editable is false', () => {
     const { container } = render(<TranceEditor editable={false} />);
-    // The wrapper should not have focus-within styling initially
+    // The editor still renders its contenteditable in read-only mode
     expect(container.firstChild).toHaveClass('trance-editor-wrapper');
-    // Verify the editor still renders (content editable area exists)
     const contentEditable = container.querySelector('[contenteditable]');
     expect(contentEditable).toBeInTheDocument();
   });

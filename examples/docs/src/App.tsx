@@ -57,13 +57,14 @@ function Section({ id, label, title, desc, children }: {
 }
 
 const FEATURES = [
-  { icon: '🎨', title: 'Beautiful Out of the Box', desc: 'Polished toolbar, floating formatting bar, dark mode.' },
+  { icon: '🎨', title: 'Beautiful Out of the Box', desc: 'Polished toolbar, floating formatting bar on text selection, dark mode.' },
   { icon: '⚡', title: 'Plug and Play', desc: 'Single component, zero config needed.' },
   { icon: '📤', title: 'Dual Output', desc: 'Get both HTML and JSON from onChange.' },
-  { icon: '🖼️', title: 'Rich Content', desc: 'Images, tables, code blocks, checklists, blockquotes.' },
+  { icon: '🖼️', title: 'Rich Content', desc: 'Images, tables, code blocks, checklists, blockquotes, horizontal rules.' },
   { icon: '🎯', title: 'Feature Flags', desc: 'Enable or disable any feature via props.' },
   { icon: '🎭', title: 'Theming', desc: 'Light, dark, and auto via CSS custom properties.' },
   { icon: '📐', title: 'TranceRenderer', desc: 'Lightweight renderer, separate bundle, no Lexical runtime.' },
+  { icon: '📄', title: 'Page Sizes', desc: 'Constrain editor and renderer to A4, Letter, and other standard formats.' },
   { icon: '🔒', title: 'XSS-Safe', desc: 'HTML sanitized via DOMPurify.' },
   { icon: '📦', title: 'Tree-Shakeable', desc: 'ESM + CJS dual output.' },
   { icon: '⌨️', title: 'Markdown Shortcuts', desc: 'Type # , **text**, - for quick formatting.' },
@@ -81,7 +82,7 @@ const PROPS = [
   ['onBlur', 'function', '—', 'Blur callback'],
   ['onFocus', 'function', '—', 'Focus callback'],
   ['features', 'ToolbarFeatures', 'all enabled', 'Feature flags object'],
-  ['onImageUpload', 'function', '—', 'Custom image upload handler'],
+  ['onImageUpload', 'function', 'base64 fallback', 'Custom image upload handler'],
   ['theme', "'light' | 'dark' | 'auto'", "'light'", 'Theme mode'],
   ['pageSize', "'A3' | 'A4' | 'A5' | 'Letter' | 'Legal' | 'Tabloid'", '—', 'Constrain editor to page size (matches renderer)'],
   ['className', 'string', '—', 'Additional CSS class'],
@@ -129,7 +130,7 @@ export default function App() {
 
       {/* Hero */}
       <section className="hero">
-        <div className="hero-badge">v0.4.0 · MIT</div>
+        <div className="hero-badge">v0.4.2 · MIT</div>
         <h1 className="hero-title"><span className="hero-title-gradient">trance</span><br />Rich Text Editor</h1>
         <p className="hero-subtitle">
           A plug-and-play rich text editor for React, powered by Lexical.

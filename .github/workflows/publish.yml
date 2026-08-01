@@ -12,10 +12,10 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v5
         with:
           node-version: 22
           registry-url: "https://registry.npmjs.org"
@@ -25,10 +25,7 @@ jobs:
         run: npm ci
 
       - name: Type check
-        run: npx tsc --noEmit
-
-      - name: Build
-        run: npm run build
+        run: npm run typecheck
 
       - name: Test
         run: npm test

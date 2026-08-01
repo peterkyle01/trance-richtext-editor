@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- **Docs site hero badge** now shows the current version (v0.4.2) — it had been left on v0.4.0 after the 0.4.1/0.4.2 releases.
+- **Docs site feature claims brought in line with the README** — Page Sizes card added, Rich Content now mentions horizontal rules, floating bar description clarified, `onImageUpload` default corrected.
+- **Stale `serializeToHtml` JSDoc** — it claimed the function could be called inside an update context; it always reads the committed state, so calling it there would serialize stale content.
+- **Dead code removed from `MaxLengthPlugin`** — a no-op `RootNode` transform with misleading comments; enforcement is the `TextNode` transform.
+- **CI workflow updates** — Node 22/24 matrix (20 is EOL), action versions v5, publish workflow step labels and duplicate build removed.
+- **Removed the broken `lint` script** — eslint was never a devDependency and no config exists.
+- **LICENSE year** updated to 2025-2026; test leftovers (debug console.log, stale comment) removed.
+
 ## [0.4.2] - 2026-08-02
 
 ### Added

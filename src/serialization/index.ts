@@ -8,9 +8,11 @@ import {
 import { stripTranceInternals } from '../utils/stripTranceInternals';
 
 /**
- * Serialize the current editor state to an HTML string.
- * Must be called within an editor.read() or editor.update() context,
- * or pass the editor and it will call read() for you.
+ * Serialize the editor's current state to an HTML string.
+ *
+ * Calls `editor.read()` internally — call it outside of
+ * `editor.update()`/`editor.read()` callbacks, or you'll serialize stale
+ * (pre-update) content.
  */
 export function serializeToHtml(editor: LexicalEditor): string {
   let html = '';

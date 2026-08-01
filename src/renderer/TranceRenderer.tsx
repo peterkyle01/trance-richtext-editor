@@ -41,7 +41,8 @@ export interface TranceRendererProps {
  * - XSS-safe via DOMPurify sanitization
  * - Beautiful typography and styling out of the box
  * - Supports light/dark themes via CSS custom properties
- * - SSR-safe for Next.js/Remix
+ * - SSR-safe for Next.js/Remix — note that server-rendered output is NOT
+ *   sanitized (DOMPurify only runs in the browser)
  *
  * @example
  * ```tsx

@@ -121,6 +121,8 @@ function MyEditor() {
 }
 ```
 
+The ref exposes: `getHtml()`, `getJson()`, `setHtml(html)`, `setJson(json)`, `focus()`, `clear()`, and `getLexicalEditor()` (escape hatch for advanced use).
+
 ### `<TranceRenderer />`
 
 | Prop | Type | Default | Description |
