@@ -6,7 +6,7 @@ Inspired by [Payload CMS's rich text editor](https://payloadcms.com/docs/fields/
 
 ## Features
 
-- 🎨 **Beautiful out of the box** — polished toolbar, floating formatting bar, dark mode
+- 🎨 **Beautiful out of the box** — polished toolbar, dark mode
 - ⚡ **Plug and play** — single `<TranceEditor />` component, zero config needed
 - 📤 **Dual output** — get both HTML strings and Lexical JSON from `onChange`
 - 🖼️ **Rich content** — images, tables, code blocks, checklists, blockquotes, horizontal rules
@@ -94,7 +94,7 @@ All features are enabled by default. Disable any via the `features` prop:
 />
 ```
 
-Available flags: `bold`, `italic`, `underline`, `strikethrough`, `code`, `link`, `orderedList`, `unorderedList`, `checkList`, `blockquote`, `codeBlock`, `image`, `table`, `horizontalRule`, `heading`, `textAlign`, `superscript`, `subscript`, `highlight`
+Available flags: `bold`, `italic`, `underline`, `strikethrough`, `code`, `link`, `orderedList`, `unorderedList`, `checkList`, `blockquote`, `codeBlock`, `image`, `table`, `horizontalRule`, `heading`, `textAlign`, `superscript`, `subscript`, `highlight`, `import`, `textColor`
 
 ### Ref API
 
@@ -155,20 +155,6 @@ Override any CSS custom property to customize the look:
   --trance-font-sans: 'Outfit', sans-serif;
   --trance-radius-md: 12px;
 }
-```
-
-## Server-Side Utilities
-
-Convert between formats on the server (API routes, SSR, email templates):
-
-```ts
-import { convertJsonToHtml, convertHtmlToJson } from 'trance-richtext-editor';
-
-// JSON → HTML
-const html = convertJsonToHtml(savedEditorState);
-
-// HTML → JSON
-const json = convertHtmlToJson('<p>Hello <strong>world</strong></p>');
 ```
 
 ## Image Upload

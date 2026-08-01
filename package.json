@@ -1,6 +1,6 @@
 {
   "name": "trance-richtext-editor",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A plug-and-play rich text editor for React, powered by Lexical. Drop-in editor with HTML output and a beautiful renderer component.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -73,7 +73,6 @@
   },
   "dependencies": {
     "@lexical/code": "^0.29.0",
-    "@lexical/headless": "^0.29.0",
     "@lexical/history": "^0.29.0",
     "@lexical/html": "^0.29.0",
     "@lexical/link": "^0.29.0",

@@ -2,12 +2,9 @@ import { $generateHtmlFromNodes, $generateNodesFromDOM } from '@lexical/html';
 import {
   $getRoot,
   $insertNodes,
-  createEditor,
   LexicalEditor,
   SerializedEditorState,
 } from 'lexical';
-import { TRANCE_NODES } from '../editor/nodes';
-import { tranceLexicalTheme } from '../styles/lexical-theme';
 import { stripTranceInternals } from '../utils/stripTranceInternals';
 
 /**
@@ -60,70 +57,3 @@ export function deserializeFromJson(
   editor.setEditorState(editorState);
 }
 
-/**
- * Convert serialized Lexical JSON to HTML string (server-side / headless).
- * Does NOT require a browser DOM — uses a headless Lexical editor.
- *
- * @example
- * ```ts
- * import { convertJsonToHtml } from 'trance-richtext-editor';
- * const html = convertJsonToHtml(savedJson);
- * ```
- */
-export function convertJsonToHtml(
-  json: SerializedEditorState
-): string {
-  const editor = createEditor({
-    namespace: 'TranceHeadless',
-    nodes: TRANCE_NODES,
-    theme: tranceLexicalTheme,
-    onError: (error) => {
-      throw error;
-    },
-  });
-
-  const editorState = editor.parseEditorState(json);
-  let html = '';
-
-  editorState.read(() => {
-    html = stripTranceInternals($generateHtmlFromNodes(editor, null));
-  });
-
-  return html;
-}
-
-/**
- * Convert HTML string to serialized Lexical JSON (server-side / headless).
- *
- * @example
- * ```ts
- * import { convertHtmlToJson } from 'trance-richtext-editor';
- * const json = convertHtmlToJson('<p>Hello world</p>');
- * ```
- */
-export function convertHtmlToJson(
-  html: string
-): SerializedEditorState {
-  const editor = createEditor({
-    namespace: 'TranceHeadless',
-    nodes: TRANCE_NODES,
-    theme: tranceLexicalTheme,
-    onError: (error) => {
-      throw error;
-    },
-  });
-
-  editor.update(
-    () => {
-      const parser = new DOMParser();
-      const dom = parser.parseFromString(html, 'text/html');
-      const nodes = $generateNodesFromDOM(editor, dom);
-      const root = $getRoot();
-      root.clear();
-      $insertNodes(nodes);
-    },
-    { discrete: true }
-  );
-
-  return editor.getEditorState().toJSON();
-}

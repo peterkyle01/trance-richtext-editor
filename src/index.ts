@@ -12,8 +12,6 @@ export {
   deserializeFromHtml,
   serializeToJson,
   deserializeFromJson,
-  convertJsonToHtml,
-  convertHtmlToJson,
 } from './serialization';
 
 // Custom nodes (for advanced users extending the editor)

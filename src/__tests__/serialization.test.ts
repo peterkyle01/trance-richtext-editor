@@ -1,8 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { $getRoot, createEditor } from "lexical";
 import {
-  convertHtmlToJson,
-  convertJsonToHtml,
   serializeToHtml,
   deserializeFromHtml,
   serializeToJson,
@@ -16,78 +14,6 @@ describe("Serialization Utilities", () => {
     namespace: "TestEditor",
     nodes: TRANCE_NODES,
     theme: tranceLexicalTheme,
-  });
-
-  describe("Headless HTML to JSON", () => {
-    it("should convert a simple paragraph to Lexical JSON", () => {
-      const html = "<p>Hello world</p>";
-      const json = convertHtmlToJson(html);
-
-      expect(json).toBeDefined();
-      expect(json.root.children[0].type).toBe("paragraph");
-      // Inside paragraph, there should be a text node with "Hello world"
-      const pNode = json.root.children[0] as any;
-      expect(pNode.children[0].text).toBe("Hello world");
-    });
-
-    it("should convert formatted text to Lexical JSON", () => {
-      const html = "<p>Hello <strong>bold</strong> world</p>";
-      const json = convertHtmlToJson(html);
-      const pNode = json.root.children[0] as any;
-
-      expect(pNode.children).toHaveLength(3);
-      expect(pNode.children[0].text).toBe("Hello ");
-      expect(pNode.children[1].text).toBe("bold");
-      expect(pNode.children[1].format).toBe(1); // 1 = Bold format in Lexical
-    });
-
-    it("should handle empty HTML string", () => {
-      const json = convertHtmlToJson("");
-      expect(json).toBeDefined();
-      expect(json.root.children).toHaveLength(0);
-    });
-
-    it("should convert a heading element", () => {
-      const html = "<h1>Title</h1>";
-      const json = convertHtmlToJson(html);
-      const node = json.root.children[0] as any;
-
-      expect(node.type).toBe("heading");
-      expect(node.tag).toBe("h1");
-      expect(node.children[0].text).toBe("Title");
-    });
-
-    it("should convert an unordered list", () => {
-      const html = "<ul><li>Item 1</li><li>Item 2</li></ul>";
-      const json = convertHtmlToJson(html);
-      const listNode = json.root.children[0] as any;
-
-      expect(listNode.type).toBe("list");
-      expect(listNode.listType).toBe("bullet");
-      expect(listNode.children).toHaveLength(2);
-    });
-  });
-
-  describe("Headless JSON to HTML", () => {
-    it("should convert Lexical JSON back to HTML", () => {
-      const json = convertHtmlToJson(
-        "<p>Hello <strong>bold</strong> world</p>",
-      );
-      const html = convertJsonToHtml(json);
-
-      expect(html).toContain("Hello ");
-      expect(html).toContain("bold");
-      expect(html).toContain("<strong");
-      expect(html).toContain(" world");
-      expect(html).not.toContain("trance-");
-    });
-
-    it("should handle empty JSON", () => {
-      const json = convertHtmlToJson("");
-      const html = convertJsonToHtml(json);
-      // Empty content should produce empty or minimal output
-      expect(html).toBeDefined();
-    });
   });
 
   describe("Editor Context Serialization", () => {

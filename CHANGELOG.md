@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0] - 2026-08-01
+
+### Removed
+
+- **`convertJsonToHtml` / `convertHtmlToJson` removed** — these claimed to work server-side ("headless") but required browser DOM APIs (`DOMParser`, `document`) that don't exist in Node, so they crashed in the environments the docs recommended. Editor-context serialization (`serializeToHtml`, `deserializeFromHtml`, `serializeToJson`, `deserializeFromJson`) is unchanged. If you need server-side conversion in the future, it must be built on a DOM implementation like jsdom.
+- **`@lexical/headless` dependency removed** — it was never imported anywhere in the source.
+
+### Fixed
+
+- **Docs no longer claim a "floating formatting bar"** — that feature was removed in an earlier version but the claim remained in the README, docs site, and a CSS comment.
+- **Editor caret color follows the theme** — the text cursor used the indigo accent color (`--trance-accent`); it now uses `--trance-text`, so it's dark in light mode and light in dark mode.
+
 ## [0.3.0] - 2026-07-08
 
 ### Added

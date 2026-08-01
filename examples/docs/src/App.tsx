@@ -57,7 +57,7 @@ function Section({ id, label, title, desc, children }: {
 }
 
 const FEATURES = [
-  { icon: '🎨', title: 'Beautiful Out of the Box', desc: 'Polished toolbar, dark mode, floating formatting bar.' },
+  { icon: '🎨', title: 'Beautiful Out of the Box', desc: 'Polished toolbar, dark mode.' },
   { icon: '⚡', title: 'Plug and Play', desc: 'Single component, zero config needed.' },
   { icon: '📤', title: 'Dual Output', desc: 'Get both HTML and JSON from onChange.' },
   { icon: '🖼️', title: 'Rich Content', desc: 'Images, tables, code blocks, checklists, blockquotes.' },
@@ -127,7 +127,7 @@ export default function App() {
 
       {/* Hero */}
       <section className="hero">
-        <div className="hero-badge">v0.3.0 · MIT</div>
+        <div className="hero-badge">v0.4.0 · MIT</div>
         <h1 className="hero-title"><span className="hero-title-gradient">trance</span><br />Rich Text Editor</h1>
         <p className="hero-subtitle">
           A plug-and-play rich text editor for React, powered by Lexical.
@@ -305,20 +305,6 @@ editorRef.current?.getJson();     // → SerializedEditorState
 editorRef.current?.setHtml(html); // → void
 editorRef.current?.focus();       // → void
 editorRef.current?.clear();       // → void`} />
-      </Section>
-
-      {/* Server-Side */}
-      <Section label="Server-Side" title="Headless serialization"
-        desc="Convert between formats on the server — perfect for API routes and SSR.">
-        <CodeBlock code={`import { convertJsonToHtml, convertHtmlToJson }
-  from 'trance-richtext-editor';
-
-const html = convertJsonToHtml(savedEditorState);
-const json = convertHtmlToJson('<p>Hello <strong>world</strong></p>');`} />
-        <br />
-        <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
-          Uses a headless Lexical editor — no browser DOM required.
-        </p>
       </Section>
 
       {/* Image Upload */}
