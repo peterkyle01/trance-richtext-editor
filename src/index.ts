@@ -15,6 +15,7 @@ export {
 } from './serialization';
 
 // Custom nodes (for advanced users extending the editor)
+export { TRANCE_NODES, TRANCE_HTML_EXPORT } from './editor/nodes';
 export { ImageNode, $createImageNode, $isImageNode } from './editor/nodes';
 export type { ImagePayload, SerializedImageNode } from './editor/nodes';
 export {

@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2026-08-02
+
+### Fixed
+
+- **Editor ↔ renderer parity — the core promise.** An audit found the renderer used em-based margins while the editor used fixed spacing tokens. Since em scales with the element's own font-size, headings rendered with ~2× the editor's spacing and paragraphs, lists, blockquotes, code blocks, tables, rules, and images all drifted. The renderer now uses the same tokens as the editor.
+- **Checklists now render correctly in `TranceRenderer`.** The checked state was dropped during HTML export (Lexical only keeps it in JSON), so checklists rendered as plain bullet lists. Export now emits `<ul type="check">` + `<li aria-checked="true|false">` via `TRANCE_HTML_EXPORT` (Lexical `HTMLConfig` export overrides), which round-trips through Lexical's own import logic and is styled by the renderer.
+- **Images and horizontal rules respect the theme in the renderer.** Export embedded hardcoded light-theme hex colors (`#6b7280` captions, `#d1d5db` rules) that broke dark mode; token-based renderer CSS now controls the look. Image vertical spacing also aligned (a stray `0.5em` img margin created 16px gaps vs the editor's 12px), and dead `figure[data-align]` rules were removed (DOMPurify strips `data-*`; alignment travels via inline margins).
+
+### Changed
+
+- **Checklist HTML output shape** — `<ul type="check">` with `<li aria-checked="…">` (previously a private `__lexicalListType` attribute + no checked state). Old stored HTML still imports correctly; new output renders correctly in the renderer.
+
+### Added
+
+- **Parity test suite** — 30 features rendered with both editor CSS and renderer CSS, computed styles compared element-by-element. The suite that makes "exactly the same thing" a checked property.
+- **Sanitization guard tests** — the editor's output contract (inline styles, checklist attributes, figure/iframe, target/rel/loading) is pinned so DOMPurify config drift fails loudly instead of silently breaking fidelity.
+- **`TRANCE_HTML_EXPORT` and `TRANCE_NODES`** — exported for custom editors built on the library; `TRANCE_NODES` was previously only available internally.
+- **README "HTML Output Contract" section** — the written version of what the code enforces.
+
 ## [0.4.0] - 2026-08-01
 
 ### Removed

@@ -27,7 +27,7 @@ import {
   SerializedEditorState,
 } from "lexical";
 
-import { TRANCE_NODES } from "./nodes";
+import { TRANCE_NODES, TRANCE_HTML_EXPORT } from "./nodes";
 import { tranceLexicalTheme } from "../styles/lexical-theme";
 import { Toolbar, ToolbarFeatures } from "./toolbar/Toolbar";
 import { HtmlSerializationPlugin } from "./plugins/HtmlSerializationPlugin";
@@ -263,6 +263,7 @@ export const TranceEditor = forwardRef<TranceEditorRef, TranceEditorProps>(
       namespace: "TranceEditor",
       theme: tranceLexicalTheme,
       nodes: TRANCE_NODES,
+      html: { export: TRANCE_HTML_EXPORT },
       editable,
       onError: (error: Error) => {
         console.error("[TranceEditor]", error);

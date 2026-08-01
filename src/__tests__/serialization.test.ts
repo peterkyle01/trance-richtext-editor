@@ -6,7 +6,7 @@ import {
   serializeToJson,
   deserializeFromJson,
 } from "../serialization";
-import { TRANCE_NODES } from "../editor/nodes";
+import { TRANCE_NODES, TRANCE_HTML_EXPORT } from "../editor/nodes";
 import { tranceLexicalTheme } from "../styles/lexical-theme";
 
 describe("Serialization Utilities", () => {
@@ -14,6 +14,7 @@ describe("Serialization Utilities", () => {
     namespace: "TestEditor",
     nodes: TRANCE_NODES,
     theme: tranceLexicalTheme,
+    html: { export: TRANCE_HTML_EXPORT },
   });
 
   describe("Editor Context Serialization", () => {
@@ -57,6 +58,32 @@ describe("Serialization Utilities", () => {
       expect(htmlOutput).not.toContain(">Background Image<");
       // Editor theme classes should be stripped
       expect(htmlOutput).not.toContain("trance-paragraph");
+    });
+
+    it("should round-trip checklists with checked state", () => {
+      editor.update(
+        () => {
+          deserializeFromHtml(
+            editor,
+            '<ul type="check"><li aria-checked="true">Done</li><li aria-checked="false">Todo</li></ul>',
+          );
+        },
+        { discrete: true },
+      );
+
+      const json = serializeToJson(editor);
+      const list = json.root.children[0] as any;
+      expect(list.type).toBe("list");
+      expect(list.listType).toBe("check");
+      expect(list.children[0].checked).toBe(true);
+      expect(list.children[1].checked).toBe(false);
+
+      const html = serializeToHtml(editor);
+      expect(html).toContain('type="check"');
+      expect(html).toContain('aria-checked="true"');
+      expect(html).toContain('aria-checked="false"');
+      // Editor internals must not leak into checklist output
+      expect(html).not.toContain("__lexicalListType");
     });
 
     it("should serialize cleared editor state", () => {

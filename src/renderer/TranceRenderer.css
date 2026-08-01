@@ -30,24 +30,23 @@
 }
 
 /* ---- Headings ---- */
+/* Margins must match .trance-editor-content's heading rules exactly —
+   em-based margins drift as font sizes change (em is relative to the
+   element's own font-size), breaking editor/renderer fidelity. */
 .trance-renderer h1 {
     font-size: var(--trance-font-size-4xl);
     font-weight: 800;
     line-height: var(--trance-line-height-tight);
-    margin: 1.5em 0 0.5em 0;
+    margin: var(--trance-spacing-xl) 0 var(--trance-spacing-md) 0;
     color: var(--trance-text);
     letter-spacing: -0.025em;
-}
-
-.trance-renderer h1:first-child {
-    margin-top: 0;
 }
 
 .trance-renderer h2 {
     font-size: var(--trance-font-size-3xl);
     font-weight: 700;
     line-height: var(--trance-line-height-tight);
-    margin: 1.4em 0 0.4em 0;
+    margin: var(--trance-spacing-xl) 0 var(--trance-spacing-sm) 0;
     color: var(--trance-text);
     letter-spacing: -0.02em;
 }
@@ -56,7 +55,7 @@
     font-size: var(--trance-font-size-2xl);
     font-weight: 600;
     line-height: var(--trance-line-height-tight);
-    margin: 1.3em 0 0.3em 0;
+    margin: var(--trance-spacing-lg) 0 var(--trance-spacing-sm) 0;
     color: var(--trance-text);
 }
 
@@ -64,19 +63,23 @@
     font-size: var(--trance-font-size-xl);
     font-weight: 600;
     line-height: var(--trance-line-height-tight);
-    margin: 1.2em 0 0.3em 0;
+    margin: var(--trance-spacing-lg) 0 var(--trance-spacing-xs) 0;
+    color: var(--trance-text);
 }
 
 .trance-renderer h5 {
     font-size: var(--trance-font-size-lg);
     font-weight: 600;
-    margin: 1.1em 0 0.2em 0;
+    line-height: var(--trance-line-height-tight);
+    margin: var(--trance-spacing-md) 0 var(--trance-spacing-xs) 0;
+    color: var(--trance-text);
 }
 
 .trance-renderer h6 {
     font-size: var(--trance-font-size-base);
     font-weight: 600;
-    margin: 1em 0 0.2em 0;
+    line-height: var(--trance-line-height-tight);
+    margin: var(--trance-spacing-md) 0 var(--trance-spacing-xs) 0;
     color: var(--trance-text-secondary);
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -84,7 +87,7 @@
 
 /* ---- Paragraphs ---- */
 .trance-renderer p {
-    margin: 0 0 0.75em 0;
+    margin: 0 0 var(--trance-spacing-sm) 0;
 }
 
 .trance-renderer p:last-child {
@@ -162,7 +165,7 @@
     background: var(--trance-code-block-bg);
     color: var(--trance-code-block-text);
     padding: var(--trance-spacing-lg);
-    margin: 1em 0;
+    margin: var(--trance-spacing-md) 0;
     border-radius: var(--trance-radius-md);
     overflow-x: auto;
     line-height: 1.6;
@@ -181,17 +184,17 @@
 .trance-renderer ul {
     list-style-type: disc;
     padding-left: 1.5em;
-    margin: 0.75em 0;
+    margin: var(--trance-spacing-sm) 0;
 }
 
 .trance-renderer ol {
     list-style-type: decimal;
     padding-left: 1.5em;
-    margin: 0.75em 0;
+    margin: var(--trance-spacing-sm) 0;
 }
 
 .trance-renderer li {
-    margin: 0.25em 0;
+    margin: var(--trance-spacing-xs) 0;
 }
 
 .trance-renderer ul ul {
@@ -202,13 +205,61 @@
     list-style-type: square;
 }
 
+/* ---- Checklists ---- */
+/* Editor checklists export as <ul type="check"><li aria-checked="…">.
+   These rules mirror the editor's .trance-li-checked/-unchecked styles. */
+.trance-renderer ul[type='check'] {
+    list-style-type: none;
+    padding-left: 1.5em;
+}
+
+.trance-renderer ul[type='check'] li {
+    list-style-type: none;
+    position: relative;
+    padding-left: 1.5em;
+    margin-left: -1.5em;
+}
+
+.trance-renderer ul[type='check'] li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.35em;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--trance-border-strong);
+    border-radius: var(--trance-radius-sm);
+}
+
+.trance-renderer li[aria-checked='true']::before {
+    background: var(--trance-accent);
+    border-color: var(--trance-accent);
+}
+
+.trance-renderer li[aria-checked='true']::after {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 0.4em;
+    width: 6px;
+    height: 10px;
+    border: solid var(--trance-accent-text);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.trance-renderer li[aria-checked='true'] {
+    text-decoration: line-through;
+    color: var(--trance-text-muted);
+}
+
 /* ---- Blockquote ---- */
 .trance-renderer blockquote {
     border-left: 4px solid var(--trance-blockquote-border);
     background: var(--trance-blockquote-bg);
     color: var(--trance-blockquote-text);
-    margin: 1em 0;
-    padding: 0.75em 1em;
+    margin: var(--trance-spacing-md) 0;
+    padding: var(--trance-spacing-md) var(--trance-spacing-lg);
     border-radius: 0 var(--trance-radius) var(--trance-radius) 0;
     font-style: italic;
 }
@@ -221,7 +272,7 @@
 .trance-renderer table {
     width: 100%;
     border-collapse: collapse;
-    margin: 1em 0;
+    margin: var(--trance-spacing-md) 0;
     font-size: var(--trance-font-size-sm);
     border: 1px solid var(--trance-table-border);
     border-radius: var(--trance-radius);
@@ -232,12 +283,12 @@
     background: var(--trance-table-header-bg);
     font-weight: 600;
     text-align: left;
-    padding: 0.5em 0.75em;
+    padding: var(--trance-spacing-sm) var(--trance-spacing-md);
     border: 1px solid var(--trance-table-border);
 }
 
 .trance-renderer td {
-    padding: 0.5em 0.75em;
+    padding: var(--trance-spacing-sm) var(--trance-spacing-md);
     border: 1px solid var(--trance-table-border);
     vertical-align: top;
 }
@@ -254,44 +305,29 @@
             transparent,
             var(--trance-border-strong),
             transparent);
-    margin: 2em 0;
+    margin: var(--trance-spacing-xl) 0;
 }
 
 /* ---- Images ---- */
 .trance-renderer img {
+    display: block;
     max-width: 100%;
     height: auto;
     border-radius: var(--trance-radius-md);
-    margin: 0.5em 0;
 }
 
 .trance-renderer figure {
-    margin: 1em 0;
+    margin: var(--trance-spacing-md) 0;
     display: block;
     width: fit-content;
     max-width: 100%;
-}
-
-.trance-renderer figure[data-align="left"] {
-    margin-right: auto;
-    margin-left: 0;
-}
-
-.trance-renderer figure[data-align="center"] {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.trance-renderer figure[data-align="right"] {
-    margin-left: auto;
-    margin-right: 0;
 }
 
 .trance-renderer figcaption {
     text-align: center;
     font-size: var(--trance-font-size-sm);
     color: var(--trance-text-muted);
-    margin-top: 0.25em;
+    margin-top: var(--trance-spacing-xs);
     font-style: italic;
 }
 

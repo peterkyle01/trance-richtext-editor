@@ -173,6 +173,21 @@ Provide a custom upload handler, or images will be base64-encoded by default:
 />
 ```
 
+## HTML Output Contract
+
+Content edited in the editor must render **exactly the same** in `TranceRenderer` — that is the core promise of this library, and it is enforced by a parity test suite that compares computed styles between the two components for every feature.
+
+The editor produces clean, semantic HTML with these guarantees:
+
+- **Semantic elements only** — `<p>`, `<h1>`–`<h6>`, `<ul>`, `<ol>`, `<blockquote>`, `<pre>`, `<table>`, `<hr>`, `<figure>`, `<img>`, `<a>`, `<code>`, `<mark>`, `<sub>`, `<sup>`
+- **Checklists round-trip** — exported as `<ul type="check">` with `<li aria-checked="true|false">`; the checked state survives editor → HTML → editor
+- **Inline styles for content, not chrome** — text color and alignment export as `style="color: …"` / `style="text-align: …"`, which the renderer preserves
+- **No editor internals** — no Lexical theme classes, no `__lexicalListType` attributes, no placeholder or UI markup
+- **One preserved class** — `trance-image-background` on `<figure>` marks full-bleed background images (used by `TranceRenderer`)
+- **Stable across versions** — output changes are treated as breaking changes and documented in the changelog
+
+For custom editors built on `TRANCE_NODES`, pass `html: { export: TRANCE_HTML_EXPORT }` to keep checklist output faithful.
+
 ## Browser Support
 
 | Browser | Version |

@@ -49,13 +49,9 @@ export class HorizontalRuleNode extends DecoratorNode<ReactNode> {
   }
 
   exportDOM(): DOMExportOutput {
-    const hr = document.createElement('hr');
-    hr.style.border = 'none';
-    hr.style.height = '2px';
-    hr.style.background =
-      'linear-gradient(90deg, transparent, #d1d5db, transparent)';
-    hr.style.margin = '24px 0';
-    return { element: hr };
+    // Semantic, unstyled output — the renderer styles <hr> via CSS custom
+    // properties (hardcoded inline colors would break dark mode theming).
+    return { element: document.createElement('hr') };
   }
 
   createDOM(): HTMLElement {

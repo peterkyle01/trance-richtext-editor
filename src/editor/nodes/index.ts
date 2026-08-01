@@ -7,6 +7,8 @@ import { TableNode, TableCellNode, TableRowNode } from '@lexical/table';
 import { ImageNode } from './ImageNode';
 import { HorizontalRuleNode } from './HorizontalRuleNode';
 
+export { TRANCE_HTML_EXPORT } from './ChecklistNodes';
+
 /**
  * All Lexical nodes registered by trance-richtext-editor.
  * Pass this to LexicalComposer's `nodes` config.

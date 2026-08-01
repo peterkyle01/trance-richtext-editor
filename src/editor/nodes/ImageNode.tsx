@@ -165,7 +165,6 @@ export class ImageNode extends DecoratorNode<ReactNode> {
 
   exportDOM(): DOMExportOutput {
     const figure = document.createElement("figure");
-    figure.style.margin = "0";
     figure.dataset.align = this.__alignment;
     figure.dataset.mode = this.__mode;
     this.applyAlignmentStyles(figure);
@@ -182,20 +181,11 @@ export class ImageNode extends DecoratorNode<ReactNode> {
     if (this.__height) {
       img.setAttribute("height", String(this.__height));
     }
-    img.style.maxWidth = "100%";
-    img.style.height = "auto";
-    img.style.borderRadius = "8px";
-    img.style.display = "block";
     figure.appendChild(img);
 
     if (this.__caption && this.__mode !== "background") {
       const figcaption = document.createElement("figcaption");
       figcaption.textContent = this.__caption;
-      figcaption.style.textAlign = "center";
-      figcaption.style.fontSize = "0.875rem";
-      figcaption.style.color = "#6b7280";
-      figcaption.style.marginTop = "4px";
-      figcaption.style.fontStyle = "italic";
       figure.appendChild(figcaption);
     }
 
@@ -214,14 +204,17 @@ export class ImageNode extends DecoratorNode<ReactNode> {
 
     switch (this.__alignment) {
       case "left":
-        element.style.margin = "0 auto 0 0";
+        element.style.marginLeft = "0";
+        element.style.marginRight = "auto";
         break;
       case "right":
-        element.style.margin = "0 0 0 auto";
+        element.style.marginLeft = "auto";
+        element.style.marginRight = "0";
         break;
       case "center":
       default:
-        element.style.margin = "0 auto";
+        element.style.marginLeft = "auto";
+        element.style.marginRight = "auto";
         break;
     }
   }

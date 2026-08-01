@@ -307,6 +307,21 @@ editorRef.current?.focus();       // → void
 editorRef.current?.clear();       // → void`} />
       </Section>
 
+      {/* Output Contract */}
+      <Section label="Output Contract" title="The editor and renderer never drift"
+        desc="Content edited in the editor renders EXACTLY the same in TranceRenderer — enforced by a parity test suite that compares computed styles across every feature.">
+        <CodeBlock code={`<ul type="check">
+  <li aria-checked="true">Done</li>
+  <li aria-checked="false">Todo</li>
+</ul>
+<figure><img src="..." alt="..." /><figcaption>Caption</figcaption></figure>
+<p style="color: #e11d48">Colored text</p>`} />
+        <br />
+        <p style={{ color: 'var(--color-text-secondary)', fontSize: '0.875rem' }}>
+          Semantic elements, checklist state via aria-checked, inline styles for content — no editor internals ever leak into output.
+        </p>
+      </Section>
+
       {/* Image Upload */}
       <Section label="Image Upload" title="Custom upload handler"
         desc="Provide your own handler, or images are base64-encoded by default.">
