@@ -37,6 +37,7 @@ import { INSERT_TABLE_COMMAND } from "@lexical/table";
 
 import { ToolbarButton, ToolbarSeparator } from "./ToolbarButton";
 import { BlockTypeDropdown } from "./BlockTypeDropdown";
+import { normalizeUrl } from "../utils/normalizeUrl";
 import { TableSizePicker } from "./TableSizePicker";
 import {
   BoldIcon,
@@ -68,6 +69,8 @@ import { importDocument } from "../utils/importDocument";
 import { TextColorPicker } from "./TextColorPicker";
 
 export interface ToolbarFeatures {
+  /** Floating formatting bar shown on text selection */
+  floatingBar?: boolean;
   bold?: boolean;
   italic?: boolean;
   underline?: boolean;
@@ -293,18 +296,6 @@ export function Toolbar({ features, onImageUpload }: ToolbarProps) {
     };
     input.click();
   }, [editor, onImageUpload]);
-
-  const normalizeUrl = useCallback((url: string): string => {
-    const trimmed = url.trim();
-    if (!trimmed) return "";
-    if (/^(https?:|mailto:|tel:|#)/i.test(trimmed)) {
-      return trimmed;
-    }
-    if (trimmed.includes("@") && !trimmed.includes("/")) {
-      return `mailto:${trimmed}`;
-    }
-    return `https://${trimmed}`;
-  }, []);
 
   const handleLinkToggle = useCallback(() => {
     if (isLink) {

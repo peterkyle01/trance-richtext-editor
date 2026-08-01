@@ -57,7 +57,7 @@ function Section({ id, label, title, desc, children }: {
 }
 
 const FEATURES = [
-  { icon: '🎨', title: 'Beautiful Out of the Box', desc: 'Polished toolbar, dark mode.' },
+  { icon: '🎨', title: 'Beautiful Out of the Box', desc: 'Polished toolbar, floating formatting bar, dark mode.' },
   { icon: '⚡', title: 'Plug and Play', desc: 'Single component, zero config needed.' },
   { icon: '📤', title: 'Dual Output', desc: 'Get both HTML and JSON from onChange.' },
   { icon: '🖼️', title: 'Rich Content', desc: 'Images, tables, code blocks, checklists, blockquotes.' },
@@ -74,6 +74,8 @@ const FEATURES = [
 const PROPS = [
   ['initialHtml', 'string', '—', 'Initialize editor from HTML'],
   ['initialJson', 'SerializedEditorState', '—', 'Initialize from Lexical JSON'],
+  ['value', 'string', '—', 'Controlled HTML value — external changes are pushed into the editor'],
+  ['defaultValue', 'string', '—', 'Initial HTML in uncontrolled mode (alias for initialHtml)'],
   ['placeholder', 'string', '"Start writing..."', 'Placeholder text'],
   ['onChange', 'function', '—', 'Content change callback (debounced)'],
   ['onBlur', 'function', '—', 'Blur callback'],
@@ -305,6 +307,17 @@ editorRef.current?.getJson();     // → SerializedEditorState
 editorRef.current?.setHtml(html); // → void
 editorRef.current?.focus();       // → void
 editorRef.current?.clear();       // → void`} />
+      </Section>
+
+      {/* Controlled Mode */}
+      <Section label="Controlled Mode" title="Drive the editor from external state"
+        desc="Pass value (HTML) and echo onChange back — the editor only applies changes that differ from its own content, so there are no cursor resets or update loops.">
+        <CodeBlock code={`const [html, setHtml] = useState('<p>Start writing...</p>');
+
+<TranceEditor
+  value={html}
+  onChange={({ html }) => setHtml(html)}
+/>`} />
       </Section>
 
       {/* Output Contract */}

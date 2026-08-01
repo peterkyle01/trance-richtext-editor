@@ -34,8 +34,10 @@ import { HtmlSerializationPlugin } from "./plugins/HtmlSerializationPlugin";
 import { ImagesPlugin } from "./plugins/ImagesPlugin";
 import { HorizontalRulePlugin } from "./plugins/HorizontalRulePlugin";
 import { MaxLengthPlugin } from "./plugins/MaxLengthPlugin";
+import { FloatingToolbarPlugin } from "./plugins/FloatingToolbarPlugin";
 import { ImageBackgroundContext } from "./context/ImageBackgroundContext";
 import { stripTranceInternals } from "../utils/stripTranceInternals";
+import { canonicalizeHtml } from "../utils/canonicalHtml";
 
 // Import styles
 import "../styles/variables.css";
@@ -47,6 +49,15 @@ export interface TranceEditorProps {
   initialHtml?: string;
   /** Initialize from serialized Lexical JSON */
   initialJson?: SerializedEditorState;
+  /**
+   * Controlled HTML value. When provided, external changes are pushed into
+   * the editor. Only applied when the value differs from the editor's own
+   * content, so echoing `onChange` output back is safe (no cursor resets).
+   * Takes precedence over `initialJson`, `defaultValue`, and `initialHtml`.
+   */
+  value?: string;
+  /** Initial HTML for uncontrolled mode (React-style alias for `initialHtml`) */
+  defaultValue?: string;
   /** Placeholder text shown when editor is empty */
   placeholder?: string;
   /** Called when editor content changes (debounced) */
@@ -108,10 +119,12 @@ function EditorInner({
   autoFocus,
   maxLength,
   debounceMs,
+  value,
   editorRef,
 }: TranceEditorProps & { editorRef?: React.Ref<TranceEditorRef> }) {
   const [editor] = useLexicalComposerContext();
   const resolvedFeatures: ToolbarFeatures = {
+    floatingBar: true,
     bold: true,
     italic: true,
     underline: true,
@@ -137,6 +150,38 @@ function EditorInner({
   };
 
   const backgroundLayerRef = useRef<HTMLDivElement>(null);
+
+  // Latest emitted HTML in canonical form, used to guard against pushing the
+  // editor's own emissions back into it (which would reset the cursor).
+  const lastEmittedRef = useRef<string | null>(
+    value !== undefined ? canonicalizeHtml(value) : null,
+  );
+
+  const handleChange = useCallback(
+    (data: { html: string; json: SerializedEditorState }) => {
+      lastEmittedRef.current = canonicalizeHtml(data.html);
+      onChange?.(data);
+    },
+    [onChange],
+  );
+
+  // Controlled mode: push external `value` changes into the editor, but only
+  // when they differ from what the editor last emitted.
+  useEffect(() => {
+    if (value === undefined) return;
+    const incoming = canonicalizeHtml(value);
+    if (lastEmittedRef.current === incoming) return;
+
+    lastEmittedRef.current = incoming;
+    editor.update(() => {
+      const parser = new DOMParser();
+      const dom = parser.parseFromString(value, "text/html");
+      const nodes = $generateNodesFromDOM(editor, dom);
+      const root = $getRoot();
+      root.clear();
+      root.append(...nodes);
+    });
+  }, [value, editor]);
 
   useImperativeHandle(
     editorRef,
@@ -217,10 +262,11 @@ function EditorInner({
       <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
 
       {/* Custom plugins */}
-      <HtmlSerializationPlugin onChange={onChange} debounceMs={debounceMs} />
+      <HtmlSerializationPlugin onChange={handleChange} debounceMs={debounceMs} />
       <ImagesPlugin onImageUpload={onImageUpload} />
       <HorizontalRulePlugin />
       {maxLength !== undefined && <MaxLengthPlugin maxLength={maxLength} />}
+      <FloatingToolbarPlugin features={resolvedFeatures} />
     </ImageBackgroundContext.Provider>
   );
 }
@@ -248,16 +294,20 @@ export const TranceEditor = forwardRef<TranceEditorRef, TranceEditorProps>(
     const {
       initialHtml,
       initialJson,
+      defaultValue,
       theme = "light",
       className = "",
       editable = true,
       pageSize,
       ...rest
     } = props;
+    const { value } = rest;
 
     const pageSizeClass = pageSize
       ? ` trance-editor-page-${pageSize.toLowerCase()}`
       : "";
+
+    const resolvedInitialHtml = value ?? defaultValue ?? initialHtml;
 
     const initialConfig = {
       namespace: "TranceEditor",
@@ -268,20 +318,24 @@ export const TranceEditor = forwardRef<TranceEditorRef, TranceEditorProps>(
       onError: (error: Error) => {
         console.error("[TranceEditor]", error);
       },
-      editorState: initialJson
-        ? JSON.stringify(initialJson)
-        : initialHtml
-          ? (editor: LexicalEditor) => {
-            editor.update(() => {
-              const parser = new DOMParser();
-              const dom = parser.parseFromString(initialHtml, "text/html");
-              const nodes = $generateNodesFromDOM(editor, dom);
-              const root = $getRoot();
-              root.select();
-              $insertNodes(nodes);
-            });
-          }
-          : undefined,
+      editorState:
+        initialJson && value === undefined
+          ? JSON.stringify(initialJson)
+          : resolvedInitialHtml
+            ? (editor: LexicalEditor) => {
+              editor.update(() => {
+                const parser = new DOMParser();
+                const dom = parser.parseFromString(
+                  resolvedInitialHtml,
+                  "text/html",
+                );
+                const nodes = $generateNodesFromDOM(editor, dom);
+                const root = $getRoot();
+                root.select();
+                $insertNodes(nodes);
+              });
+            }
+            : undefined,
     };
 
     return (

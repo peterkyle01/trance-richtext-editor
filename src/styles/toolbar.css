@@ -1,7 +1,41 @@
 /* ============================================================
    trance-richtext-editor — Toolbar Styles
-   Styles for the main toolbar.
+   Styles for the main toolbar and floating formatting bar.
    ============================================================ */
+
+/* ---- Floating Formatting Bar ---- */
+.trance-floating-toolbar {
+    position: fixed;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: var(--trance-spacing-xs);
+    background: var(--trance-toolbar-bg);
+    border: 1px solid var(--trance-border);
+    border-radius: var(--trance-radius-md);
+    box-shadow: var(--trance-shadow-float);
+    transform: translate(-50%, calc(-100% - 8px));
+    animation: trance-floating-in 120ms ease;
+    user-select: none;
+}
+
+.trance-floating-toolbar .trance-toolbar-btn {
+    padding: 4px;
+    border-radius: var(--trance-radius);
+}
+
+@keyframes trance-floating-in {
+    from {
+        opacity: 0;
+        transform: translate(-50%, calc(-100% - 4px)) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, calc(-100% - 8px)) scale(1);
+    }
+}
 
 /* ---- Main Toolbar ---- */
 .trance-toolbar {

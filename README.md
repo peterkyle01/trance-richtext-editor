@@ -6,7 +6,7 @@ Inspired by [Payload CMS's rich text editor](https://payloadcms.com/docs/fields/
 
 ## Features
 
-- 🎨 **Beautiful out of the box** — polished toolbar, dark mode
+- 🎨 **Beautiful out of the box** — polished toolbar, floating formatting bar on text selection, dark mode
 - ⚡ **Plug and play** — single `<TranceEditor />` component, zero config needed
 - 📤 **Dual output** — get both HTML strings and Lexical JSON from `onChange`
 - 🖼️ **Rich content** — images, tables, code blocks, checklists, blockquotes, horizontal rules
@@ -66,6 +66,8 @@ function BlogPost({ content }: { content: string }) {
 |------|------|---------|-------------|
 | `initialHtml` | `string` | — | Initialize editor from HTML |
 | `initialJson` | `SerializedEditorState` | — | Initialize from Lexical JSON |
+| `value` | `string` | — | Controlled HTML value — external changes are pushed into the editor (see [Controlled Mode](#controlled-mode)) |
+| `defaultValue` | `string` | — | Initial HTML in uncontrolled mode (alias for `initialHtml`) |
 | `placeholder` | `string` | `"Start writing..."` | Placeholder text |
 | `onChange` | `(data: { html, json }) => void` | — | Content change callback (debounced) |
 | `onBlur` | `() => void` | — | Blur callback |
@@ -94,7 +96,7 @@ All features are enabled by default. Disable any via the `features` prop:
 />
 ```
 
-Available flags: `bold`, `italic`, `underline`, `strikethrough`, `code`, `link`, `orderedList`, `unorderedList`, `checkList`, `blockquote`, `codeBlock`, `image`, `table`, `horizontalRule`, `heading`, `textAlign`, `superscript`, `subscript`, `highlight`, `import`, `textColor`
+Available flags: `bold`, `italic`, `underline`, `strikethrough`, `code`, `link`, `orderedList`, `unorderedList`, `checkList`, `blockquote`, `codeBlock`, `image`, `table`, `horizontalRule`, `heading`, `textAlign`, `superscript`, `subscript`, `highlight`, `import`, `textColor`, `floatingBar`
 
 ### Ref API
 
@@ -156,6 +158,33 @@ Override any CSS custom property to customize the look:
   --trance-radius-md: 12px;
 }
 ```
+
+## Controlled Mode
+
+Pass `value` (HTML) to drive the editor from external state — ideal for forms:
+
+```tsx
+import { useState } from 'react';
+import { TranceEditor } from 'trance-richtext-editor';
+
+function MyForm() {
+  const [html, setHtml] = useState('<p>Start writing...</p>');
+
+  return (
+    <TranceEditor
+      value={html}
+      onChange={({ html }) => setHtml(html)}
+    />
+  );
+}
+```
+
+Notes:
+
+- `value` takes precedence over `initialJson`, `defaultValue`, and `initialHtml`.
+- The editor only applies the value when it differs from its own content, so echoing `onChange` output back is safe — no cursor resets or update loops.
+- `defaultValue` sets the initial content in uncontrolled mode (a React-style alias for `initialHtml`).
+- `onChange` remains debounced (`debounceMs`, default 300ms); lower it for tighter form feedback.
 
 ## Image Upload
 

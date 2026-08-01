@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.2] - 2026-08-02
+
+### Added
+
+- **Controlled mode** — new `value` prop drives the editor from external state (HTML), with `defaultValue` for uncontrolled initial content. The editor only applies the value when it differs from its own content (canonical comparison), so echoing `onChange` output back is safe — no cursor resets or update loops. Precedence: `value` > `initialJson` > `defaultValue` > `initialHtml`.
+- **Floating formatting bar** — a bubble toolbar appears above text selections with the most-used inline formats (bold, italic, underline, strikethrough, code, highlight, link). Respects the main toolbar's feature flags; disable entirely via `features.floatingBar` (default on). Hides on collapsed selection, blur, or Escape.
+
 ## [0.4.1] - 2026-08-02
 
 ### Fixed
