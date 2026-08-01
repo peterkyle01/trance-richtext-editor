@@ -4,13 +4,15 @@ import {
   $getSelection,
   $isRangeSelection,
   COMMAND_PRIORITY_CRITICAL,
+  FORMAT_ELEMENT_COMMAND,
   FORMAT_TEXT_COMMAND,
   KEY_ESCAPE_COMMAND,
   SELECTION_CHANGE_COMMAND,
 } from 'lexical';
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from '@lexical/link';
-import { createRectsFromDOMRange } from '@lexical/selection';
+import { createRectsFromDOMRange, $patchStyleText } from '@lexical/selection';
 import { ToolbarButton, ToolbarSeparator } from '../toolbar/ToolbarButton';
+import { TextColorPicker } from '../toolbar/TextColorPicker';
 import {
   BoldIcon,
   ItalicIcon,
@@ -19,6 +21,10 @@ import {
   CodeIcon,
   HighlightIcon,
   LinkIcon,
+  AlignLeftIcon,
+  AlignCenterIcon,
+  AlignRightIcon,
+  AlignJustifyIcon,
 } from '../toolbar/icons';
 import { normalizeUrl } from '../utils/normalizeUrl';
 import type { ToolbarFeatures } from '../toolbar/Toolbar';
@@ -30,6 +36,7 @@ interface FloatingToolbarPluginProps {
 interface BarRect {
   top: number;
   left: number;
+  flip: boolean;
 }
 
 /**
@@ -49,6 +56,7 @@ export function FloatingToolbarPlugin({
   const [isCode, setIsCode] = useState(false);
   const [isHighlight, setIsHighlight] = useState(false);
   const [isLink, setIsLink] = useState(false);
+  const [textColor, setTextColor] = useState<string | undefined>(undefined);
 
   const $updateBar = useCallback(() => {
     if (!editor.isEditable()) {
@@ -73,6 +81,21 @@ export function FloatingToolbarPlugin({
     const parent = node.getParent();
     setIsLink($isLinkNode(parent) || $isLinkNode(node));
 
+    // Current text color from the selection's node styles
+    const nodes = selection.getNodes();
+    let styleStr = '';
+    for (const n of nodes) {
+      if ('getStyle' in n && typeof (n as any).getStyle === 'function') {
+        const s = (n as any).getStyle();
+        if (s) {
+          styleStr = s;
+          break;
+        }
+      }
+    }
+    const colorMatch = styleStr.match(/color:\s*([^;]+)/);
+    setTextColor(colorMatch ? colorMatch[1].trim() : undefined);
+
     // Position via the native DOM selection (the same approach as
     // lexical-playground's floating toolbar).
     const nativeSelection = window.getSelection();
@@ -94,15 +117,26 @@ export function FloatingToolbarPlugin({
     }
     const domRect = rects[0];
 
-    // Center over the selection, clamped to the viewport, and positioned
-    // above it (the bar translates itself up by its own height via CSS).
-    const barWidth = 260;
+    // Center over the selection, clamped to the viewport. Renders above the
+    // selection by default; flips BELOW it when there isn't room above (e.g.
+    // selecting the first line would otherwise cover the main toolbar).
+    const barWidth = 430;
+    const barHeight = 40;
+    const gap = 8;
+    const rootElement = editor.getRootElement();
+    const editorTop = rootElement
+      ? rootElement.getBoundingClientRect().top
+      : 0;
+    const hasSpaceAbove = domRect.top - barHeight - gap >= editorTop;
     const left = Math.min(
       Math.max(domRect.left + domRect.width / 2, barWidth / 2),
       window.innerWidth - barWidth / 2,
     );
-    const top = Math.max(domRect.top, 8);
-    setRect({ top, left });
+    setRect({
+      top: hasSpaceAbove ? domRect.top : domRect.bottom,
+      left,
+      flip: !hasSpaceAbove,
+    });
   }, [editor]);
 
   useEffect(() => {
@@ -143,6 +177,29 @@ export function FloatingToolbarPlugin({
     return () => rootElement.removeEventListener('blur', handleBlur);
   }, [editor]);
 
+  const handleTextColorChange = useCallback(
+    (color: string) => {
+      editor.update(() => {
+        const selection = $getSelection();
+        if ($isRangeSelection(selection)) {
+          if (color) {
+            $patchStyleText(selection, { color });
+          } else {
+            $patchStyleText(selection, { color: null });
+          }
+        }
+      });
+    },
+    [editor],
+  );
+
+  const handleAlign = useCallback(
+    (alignment: 'left' | 'center' | 'right' | 'justify') => {
+      editor.dispatchCommand(FORMAT_ELEMENT_COMMAND, alignment);
+    },
+    [editor],
+  );
+
   if (features.floatingBar === false) {
     return null;
   }
@@ -153,7 +210,7 @@ export function FloatingToolbarPlugin({
 
   return (
     <div
-      className="trance-floating-toolbar"
+      className={`trance-floating-toolbar${rect.flip ? ' flip' : ''}`}
       style={{ top: rect.top, left: rect.left }}
       role="toolbar"
       aria-label="Formatting"
@@ -231,6 +288,40 @@ export function FloatingToolbarPlugin({
                 }
               }
             }}
+          />
+        </>
+      )}
+      {features.textColor !== false && (
+        <>
+          <ToolbarSeparator />
+          <TextColorPicker
+            currentColor={textColor}
+            onColorChange={handleTextColorChange}
+          />
+        </>
+      )}
+      {features.textAlign !== false && (
+        <>
+          <ToolbarSeparator />
+          <ToolbarButton
+            icon={<AlignLeftIcon />}
+            label="Align Left"
+            onClick={() => handleAlign('left')}
+          />
+          <ToolbarButton
+            icon={<AlignCenterIcon />}
+            label="Align Center"
+            onClick={() => handleAlign('center')}
+          />
+          <ToolbarButton
+            icon={<AlignRightIcon />}
+            label="Align Right"
+            onClick={() => handleAlign('right')}
+          />
+          <ToolbarButton
+            icon={<AlignJustifyIcon />}
+            label="Justify"
+            onClick={() => handleAlign('justify')}
           />
         </>
       )}

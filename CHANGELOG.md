@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.4] - 2026-08-02
+
+### Added
+
+- **Floating formatting bar: text color and alignment** — the bubble toolbar now includes the text color picker (same 22-color palette as the main toolbar) and paragraph alignment controls (left/center/right/justify), gated by the existing `features.textColor` / `features.textAlign` flags.
+
+### Fixed
+
+- **Floating bar no longer covers the main toolbar on the first line** — it now flips below the selection when there isn't room above it (bar height + gap vs the editor's top edge). The entry animation is opacity-only so it can't fight the flip transform.
+
 ## [0.4.3] - 2026-08-02
 
 ### Fixed

@@ -140,6 +140,78 @@ describe('Floating formatting bar', () => {
     });
   });
 
+  it('flips below the selection when there is no room above (first line)', async () => {
+    const ref = React.createRef<TranceEditorRef>();
+    const { container } = render(
+      <TranceEditor ref={ref} initialHtml="<p>Selectable content</p>" />,
+    );
+    // Selection at the very top of the viewport — no room for the bar above
+    mockSelectionRect({ left: 100, top: 10, width: 200, height: 20 });
+    selectAll(ref);
+
+    await waitFor(() => {
+      expect(getBar(container)).not.toBeNull();
+    });
+    expect(getBar(container)?.classList.contains('flip')).toBe(true);
+  });
+
+  it('stays above the selection when there is room', async () => {
+    const ref = React.createRef<TranceEditorRef>();
+    const { container } = render(
+      <TranceEditor ref={ref} initialHtml="<p>Selectable content</p>" />,
+    );
+    mockSelectionRect({ left: 100, top: 200, width: 200, height: 20 });
+    selectAll(ref);
+
+    await waitFor(() => {
+      expect(getBar(container)).not.toBeNull();
+    });
+    expect(getBar(container)?.classList.contains('flip')).toBe(false);
+  });
+
+  it('shows text color and alignment controls by default', async () => {
+    const ref = React.createRef<TranceEditorRef>();
+    const { container } = render(
+      <TranceEditor ref={ref} initialHtml="<p>Selectable content</p>" />,
+    );
+    mockSelectionRect();
+    selectAll(ref);
+
+    await waitFor(() => {
+      expect(getBar(container)).not.toBeNull();
+    });
+
+    const bar = getBar(container) as HTMLElement;
+    expect(bar.querySelector('[aria-label="Text Color"]')).not.toBeNull();
+    expect(bar.querySelector('[aria-label="Align Left"]')).not.toBeNull();
+    expect(bar.querySelector('[aria-label="Align Center"]')).not.toBeNull();
+    expect(bar.querySelector('[aria-label="Align Right"]')).not.toBeNull();
+    expect(bar.querySelector('[aria-label="Justify"]')).not.toBeNull();
+  });
+
+  it('respects textColor and textAlign feature flags', async () => {
+    const ref = React.createRef<TranceEditorRef>();
+    const { container } = render(
+      <TranceEditor
+        ref={ref}
+        initialHtml="<p>Selectable content</p>"
+        features={{ textColor: false, textAlign: false }}
+      />,
+    );
+    mockSelectionRect();
+    selectAll(ref);
+
+    await waitFor(() => {
+      expect(getBar(container)).not.toBeNull();
+    });
+
+    const bar = getBar(container) as HTMLElement;
+    expect(bar.querySelector('[aria-label="Text Color"]')).toBeNull();
+    expect(bar.querySelector('[aria-label="Align Left"]')).toBeNull();
+    // Inline formatting still present
+    expect(bar.querySelector('[aria-label="Bold"]')).not.toBeNull();
+  });
+
   it('is disabled via features.floatingBar', async () => {
     const ref = React.createRef<TranceEditorRef>();
     const { container } = render(
