@@ -130,7 +130,7 @@ export default function App() {
 
       {/* Hero */}
       <section className="hero">
-        <div className="hero-badge">v0.4.2 · MIT</div>
+        <div className="hero-badge">v0.4.3 · MIT</div>
         <h1 className="hero-title"><span className="hero-title-gradient">trance</span><br />Rich Text Editor</h1>
         <p className="hero-subtitle">
           A plug-and-play rich text editor for React, powered by Lexical.
